@@ -1,0 +1,6 @@
+{
+  "name": "React Time Widgets Dashboard",
+  "description": "A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
