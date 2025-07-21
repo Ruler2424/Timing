@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LogoIcon } from './icons.tsx';
 import { useAuth } from '../hooks/useAuth.ts';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
     onUpgradeClick: () => void;
@@ -15,7 +16,7 @@ const Header = ({ onUpgradeClick }: HeaderProps) => {
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
                     <LogoIcon className="text-[var(--text-color)]" />
-                    <span className="text-xl font-bold text-[var(--text-color)]">TimeCraft</span>
+                    <Link to="/" className="text-xl font-bold text-[var(--text-color)]">TimeCraft</Link>
                 </div>
                 <div className="flex items-center gap-4">
                     <nav className="hidden md:flex items-center gap-8">

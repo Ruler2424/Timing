@@ -1,6 +1,8 @@
-import React from 'react';
+// components/AgendaWidget.tsx
+import React, { useEffect } from 'react'; // Импортируем useEffect
 import { ListIcon } from './icons.tsx';
 import { useCurrentTime } from '../hooks/useCurrentTime.ts';
+import { useAudioPlayer } from '../utils/sounds/playSound.tsx'; // Импортируем наш хук
 
 const AGENDA_ITEMS = [
     { time: '09:00', task: 'Team Stand-up' },
@@ -14,8 +16,12 @@ const AGENDA_ITEMS = [
     { time: '18:00', task: 'End of Day' },
 ];
 
+const ALERT_BEFORE_MINUTES = 5; // Оповещать за 5 минут до события
+
 const AgendaWidget = () => {
     const now = useCurrentTime();
+    const { play, stop, isPlaying } = useAudioPlayer(); // Получаем функции управления звуком
+    const agendaAlertSound = '../utils/sounds/agenda-alert.mp3'; // Путь к звуку
 
     const getCurrentItemIndex = () => {
         const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -31,7 +37,51 @@ const AgendaWidget = () => {
         return activeIndex;
     };
     
+    const getNextItemIndex = () => {
+        const currentTime = now.getHours() * 60 + now.getMinutes();
+        for (let i = 0; i < AGENDA_ITEMS.length; i++) {
+            const [hours, minutes] = AGENDA_ITEMS[i].time.split(':').map(Number);
+            const itemTime = hours * 60 + minutes;
+            if (currentTime < itemTime) {
+                return i;
+            }
+        }
+        return -1; // Нет будущих событий
+    };
+
     const currentItemIndex = getCurrentItemIndex();
+    const nextItemIndex = getNextItemIndex();
+
+    // Эффект для проверки и воспроизведения звука оповещения
+    useEffect(() => {
+        if (nextItemIndex !== -1) {
+            const [nextHours, nextMinutes] = AGENDA_ITEMS[nextItemIndex].time.split(':').map(Number);
+            const nextEventTimeInMinutes = nextHours * 60 + nextMinutes;
+            const currentTimeInMinutes = now.getHours() * 60 + now.getMinutes();
+
+            // Проверяем, попадает ли текущее время в окно оповещения
+            if (currentTimeInMinutes >= (nextEventTimeInMinutes - ALERT_BEFORE_MINUTES) &&
+                currentTimeInMinutes < nextEventTimeInMinutes) {
+                
+                // Проверяем, не играет ли уже этот звук
+                if (!isPlaying(agendaAlertSound)) {
+                    play(agendaAlertSound);
+                    // Если хотим, чтобы звук проигрался только один раз при срабатывании:
+                    // setTimeout(() => stop(agendaAlertSound), 5000); // Примерно 5 секунд
+                }
+            } else {
+                // Если мы вышли из окна оповещения, останавливаем звук, если он играет
+                if (isPlaying(agendaAlertSound)) {
+                    stop(agendaAlertSound);
+                }
+            }
+        } else {
+            // Если нет будущих событий, убедимся, что звук остановлен
+            if (isPlaying(agendaAlertSound)) {
+                stop(agendaAlertSound);
+            }
+        }
+    }, [now, nextItemIndex, ALERT_BEFORE_MINUTES, play, stop, isPlaying, agendaAlertSound]);
 
     return (
         <div className="bg-white rounded-2xl p-6 flex flex-col shadow-lg h-64">

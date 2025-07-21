@@ -14,6 +14,22 @@ const IntervalTimer = () => {
     const workAudioRef = useRef<HTMLAudioElement>(null);
     const restAudioRef = useRef<HTMLAudioElement>(null);
 
+    // Function to safely set time, ensuring it's not negative
+    const safeSetTimeLeft = (time: number) => {
+        setTimeLeft(Math.max(0, time));
+    };
+
+    // Initialize timeLeft when workTime or restTime changes, if not active
+    useEffect(() => {
+        if (!isActive) {
+            if (phase === 'work' || phase === 'idle') {
+                safeSetTimeLeft(workTime);
+            } else if (phase === 'rest') {
+                safeSetTimeLeft(restTime);
+            }
+        }
+    }, [workTime, restTime, isActive, phase]);
+
     useEffect(() => {
         if (!isActive) {
             if (intervalRef.current) clearInterval(intervalRef.current);
@@ -30,22 +46,25 @@ const IntervalTimer = () => {
                 if (phase === 'work') {
                     restAudioRef.current?.play().catch(e => console.error(e));
                     setPhase('rest');
+                    safeSetTimeLeft(restTime); // Ensure restTime is not negative
                     return restTime;
                 } else if (phase === 'rest') {
                     if (currentSet < sets) {
                         workAudioRef.current?.play().catch(e => console.error(e));
                         setCurrentSet(c => c + 1);
                         setPhase('work');
+                        safeSetTimeLeft(workTime); // Ensure workTime is not negative
                         return workTime;
                     } else {
                         // End of workout
                         setIsActive(false);
                         setPhase('idle');
                         setCurrentSet(1);
+                        safeSetTimeLeft(workTime); // Reset to initial work time
                         return workTime;
                     }
                 }
-                return 0;
+                return 0; // Should not reach here in normal flow
             });
         }, 1000);
         
@@ -53,12 +72,12 @@ const IntervalTimer = () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
 
-    }, [isActive, phase, currentSet, sets, workTime, restTime]);
+    }, [isActive, phase, currentSet, sets, workTime, restTime]); // Dependencies for the interval
 
     const handleStart = () => {
         setCurrentSet(1);
         setPhase('work');
-        setTimeLeft(workTime);
+        safeSetTimeLeft(workTime); // Use safe setter
         setIsActive(true);
         workAudioRef.current?.play().catch(e => console.error(e));
     };
@@ -69,8 +88,25 @@ const IntervalTimer = () => {
         setIsActive(false);
         setPhase('idle');
         setCurrentSet(1);
-        setTimeLeft(workTime);
+        safeSetTimeLeft(workTime); // Use safe setter
     };
+
+    // Handlers for input changes, ensuring non-negative values
+    const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        setSets(Math.max(1, value || 1)); // Ensure at least 1 set
+    };
+
+    const handleWorkTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        setWorkTime(Math.max(0, value || 0)); // Ensure at least 0 work time
+    };
+
+    const handleRestTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        setRestTime(Math.max(0, value || 0)); // Ensure at least 0 rest time
+    };
+
 
     const isIdle = phase === 'idle';
 
@@ -92,27 +128,45 @@ const IntervalTimer = () => {
             {isIdle ? (
                 <div className="grid grid-cols-3 gap-2 text-center text-sm">
                     <div>
-                        <label>Sets</label>
-                        <input type="number" value={sets} onChange={e => setSets(Number(e.target.value))} className="w-full bg-white/20 rounded p-1 text-center"/>
+                        <label className="block mb-1">Sets</label>
+                        <input 
+                            type="number" 
+                            value={sets} 
+                            onChange={handleSetsChange} 
+                            className="w-full bg-white/20 rounded p-1 text-center focus:outline-none focus:ring-2 focus:ring-white"
+                            min="1"
+                        />
                     </div>
                      <div>
-                        <label>Work</label>
-                        <input type="number" value={workTime} onChange={e => setWorkTime(Number(e.target.value))} className="w-full bg-white/20 rounded p-1 text-center"/>
+                        <label className="block mb-1">Work (s)</label>
+                        <input 
+                            type="number" 
+                            value={workTime} 
+                            onChange={handleWorkTimeChange} 
+                            className="w-full bg-white/20 rounded p-1 text-center focus:outline-none focus:ring-2 focus:ring-white"
+                            min="0"
+                        />
                     </div>
                      <div>
-                        <label>Rest</label>
-                        <input type="number" value={restTime} onChange={e => setRestTime(Number(e.target.value))} className="w-full bg-white/20 rounded p-1 text-center"/>
+                        <label className="block mb-1">Rest (s)</label>
+                        <input 
+                            type="number" 
+                            value={restTime} 
+                            onChange={handleRestTimeChange} 
+                            className="w-full bg-white/20 rounded p-1 text-center focus:outline-none focus:ring-2 focus:ring-white"
+                            min="0"
+                        />
                     </div>
                 </div>
-            ) : <div className="h-14"></div>}
+            ) : <div className="h-14"></div>} {/* Placeholder to maintain layout */}
             
             <div className="flex gap-4">
                 {isIdle ? (
-                    <button onClick={handleStart} className="w-full bg-white/90 hover:bg-white text-slate-800 font-bold py-2 rounded-lg">START</button>
+                    <button onClick={handleStart} className="w-full bg-white/90 hover:bg-white text-slate-800 font-bold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">START</button>
                 ) : (
                     <>
-                        <button onClick={handlePause} className="w-1/2 bg-white/90 hover:bg-white text-slate-800 font-bold py-2 rounded-lg">{isActive ? 'PAUSE' : 'RESUME'}</button>
-                        <button onClick={handleReset} className="w-1/2 bg-white/30 hover:bg-white/40 font-bold py-2 rounded-lg">RESET</button>
+                        <button onClick={handlePause} className="w-1/2 bg-white/90 hover:bg-white text-slate-800 font-bold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">{isActive ? 'PAUSE' : 'RESUME'}</button>
+                        <button onClick={handleReset} className="w-1/2 bg-white/30 hover:bg-white/40 font-bold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">RESET</button>
                     </>
                 )}
             </div>

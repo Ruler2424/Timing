@@ -1,3 +1,5 @@
+// App.tsx
+
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header.tsx';
 import Footer from './components/Footer.tsx';
@@ -21,6 +23,13 @@ import FocusTimer from './components/FocusTimer.tsx';
 import { useAuth } from './hooks/useAuth.ts';
 import SubscriptionModal from './components/SubscriptionModal.tsx';
 import { LockIcon } from './components/icons.tsx';
+import TermsOfUse from './TermsOfUse.tsx';
+// This import is now correct if PrivacyPolicy.tsx uses 'export function PrivacyPolicy()'
+import PrivacyPolicy from './PrivacyPolicy.tsx';
+import { AudioProvider } from './utils/sounds/playSound.tsx';
+
+// Assuming you have react-router-dom installed and set up
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const WidgetSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <section className="mb-12">
@@ -37,7 +46,7 @@ const ProWidgetWrapper = ({ children, isPro, onUpgradeClick }: { children: React
     }
 
     return (
-        <div 
+        <div
             className="relative rounded-2xl shadow-lg h-64 overflow-hidden group"
             onClick={onUpgradeClick}
             aria-label="Upgrade to Pro to unlock this widget"
@@ -52,7 +61,7 @@ const ProWidgetWrapper = ({ children, isPro, onUpgradeClick }: { children: React
                 <div className="text-center p-5 bg-[var(--card-bg-color)]/90 backdrop-blur-sm rounded-xl shadow-xl border border-black/10">
                     <LockIcon className="w-8 h-8 mx-auto mb-2 text-yellow-500" />
                     <p className="font-bold text-[var(--text-color)]">PRO Feature</p>
-                    <p className="text-sm text-[var(--text-muted-color)] group-hover:underline">Click to upgrade</p>
+                    <p className="text-sm text-[var(--text-color)] group-hover:underline">Click to upgrade</p>
                  </div>
             </div>
         </div>
@@ -68,12 +77,13 @@ const App = () => {
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
-  
+
   const handleUpgrade = () => {
     upgradeToPro();
     setIsModalOpen(false);
   }
 
+  // This is the correct function name
   const openUpgradeModal = () => {
     if (!user) {
       signInWithGoogle();
@@ -93,53 +103,77 @@ const App = () => {
   const isPro = user?.role === 'pro';
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header onUpgradeClick={openUpgradeModal} />
-      <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
+    <AudioProvider>
+    <Router>
+        <div className="min-h-screen flex flex-col">
+            <Header onUpgradeClick={openUpgradeModal} />
+            <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
 
-        {isPro && (
-            <div className="bg-[var(--card-bg-color)] p-4 rounded-lg mb-8 shadow-sm">
-                <h3 className="font-semibold mb-2 text-[var(--text-color)]">Pro Themes</h3>
-                <div className="flex gap-2">
-                    <button onClick={() => setTheme('light')} className={`px-3 py-1 text-sm rounded ${theme === 'light' ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-600'}`}>Light</button>
-                    <button onClick={() => setTheme('dark')} className={`px-3 py-1 text-sm rounded ${theme === 'dark' ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-600'}`}>Dark</button>
-                    <button onClick={() => setTheme('theme-blue')} className={`px-3 py-1 text-sm rounded ${theme === 'theme-blue' ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-600'}`}>Blue</button>
-                </div>
-            </div>
-        )}
-        
-        <WidgetSection title="Focus & Productivity">
-            <PomodoroTimer />
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><FlowTimer /></ProWidgetWrapper>
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><FocusTimer /></ProWidgetWrapper>
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><IntervalTimer /></ProWidgetWrapper>
-        </WidgetSection>
+                {isPro && (
+                    <div className="bg-[var(--card-bg-color)] p-4 rounded-lg mb-8 shadow-sm">
+                        <h3 className="font-semibold mb-2 text-[var(--text-color)]">Pro Themes</h3>
+                        <div className="flex gap-2">
+                            <button onClick={() => setTheme('light')} className={`px-3 py-1 text-sm rounded ${theme === 'light' ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-600'}`}>Light</button>
+                            <button onClick={() => setTheme('dark')} className={`px-3 py-1 text-sm rounded ${theme === 'dark' ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-600'}`}>Dark</button>
+                            <button onClick={() => setTheme('theme-blue')} className={`px-3 py-1 text-sm rounded ${theme === 'theme-blue' ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-600'}`}>Blue</button>
+                        </div>
+                    </div>
+                )}
 
-        <WidgetSection title="Clocks & Timers">
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><WorldClock /></ProWidgetWrapper>
-            <Stopwatch />
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><CountdownTimer /></ProWidgetWrapper>
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><AnalogClock /></ProWidgetWrapper>
-        </WidgetSection>
+                <Routes> {/* Wrap routes in <Routes> */}
+                    {/* Main content of the app */}
+                    <Route path="/" element={
+                        <> {/* Use a fragment or another element to render multiple top-level elements */}
+                            <WidgetSection title="Focus & Productivity">
+                                <PomodoroTimer />
+                                {/* Corrected here */}
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><FlowTimer /></ProWidgetWrapper>
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><FocusTimer /></ProWidgetWrapper>
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><IntervalTimer /></ProWidgetWrapper>
+                            </WidgetSection>
 
-        <WidgetSection title="Health & Wellness">
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><SleepCycleCalculator /></ProWidgetWrapper>
-            <BreathingTimer />
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><MeditationTimer /></ProWidgetWrapper>
-            <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><EyeRestReminder /></ProWidgetWrapper>
-        </WidgetSection>
+                            <WidgetSection title="Clocks & Timers">
+                                {/* Corrected here */}
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><WorldClock /></ProWidgetWrapper>
+                                <Stopwatch />
+                                {/* Corrected here */}
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><CountdownTimer /></ProWidgetWrapper>
+                                {/* Corrected here */}
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><AlarmClock /></ProWidgetWrapper>
+                            </WidgetSection>
 
-        <WidgetSection title="Planning & Analysis">
-             <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><AgendaWidget /></ProWidgetWrapper>
-             <TimeTracker />
-             <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><DistractionTracker /></ProWidgetWrapper>
-             <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><DigitalCountdown /></ProWidgetWrapper>
-        </WidgetSection>
+                            <WidgetSection title="Health & Wellness">
+                                {/* Corrected here */}
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><SleepCycleCalculator /></ProWidgetWrapper>
+                                <BreathingTimer />
+                                {/* Corrected here */}
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><MeditationTimer /></ProWidgetWrapper>
+                                {/* Corrected here */}
+                                <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><EyeRestReminder /></ProWidgetWrapper>
+                            </WidgetSection>
 
-      </main>
-      <Footer />
-      {isModalOpen && <SubscriptionModal onClose={() => setIsModalOpen(false)} onUpgrade={handleUpgrade} />}
-    </div>
+                            <WidgetSection title="Planning & Analysis">
+                                 {/* Corrected here */}
+                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><AgendaWidget /></ProWidgetWrapper>
+                                 <TimeTracker />
+                                 {/* Corrected here */}
+                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><DistractionTracker /></ProWidgetWrapper>
+                                 {/* Corrected here */}
+                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><DigitalCountdown /></ProWidgetWrapper>
+                            </WidgetSection>
+                        </>
+                    } />
+
+                    {/* Define your page routes */}
+                    <Route path="/terms" element={<TermsOfUse />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
+                </Routes>
+            </main>
+            <Footer />
+            {isModalOpen && <SubscriptionModal onClose={() => setIsModalOpen(false)} onUpgrade={handleUpgrade} />}
+        </div>
+    </Router>
+    </AudioProvider>
   );
 };
 

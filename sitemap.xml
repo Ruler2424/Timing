@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://timing-five.vercel.app/</loc>
+    <lastmod>2023-10-27T10:00:00+00:00</lastmod> {/* Update with your last modification date */}
+    <changefreq>weekly</changefreq> {/* How often the page is likely to change */}
+    <priority>1.0</priority> {/* Importance of this page relative to others */}
+  </url>
+  {/* If you add more specific pages or sections that have unique URLs, add them here */}
+</urlset>
