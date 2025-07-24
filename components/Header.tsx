@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+// Header.tsx
+import React, { useState, useEffect, useCallback } from 'react';
 import { LogoIcon } from './icons.tsx';
 import { useAuth } from '../hooks/useAuth.ts';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface HeaderProps {
     onUpgradeClick: () => void;
@@ -10,19 +11,66 @@ interface HeaderProps {
 const Header = ({ onUpgradeClick }: HeaderProps) => {
     const { user, signInWithGoogle, signOut } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
+
+    const handleCloseMenu = useCallback((event: MouseEvent) => {
+        const menuButton = event.currentTarget?.querySelector('[aria-label="User menu"]');
+        const menuElement = event.currentTarget?.querySelector('[role="menu"]');
+
+        if (isMenuOpen &&
+            !(menuElement && menuElement.contains(event.target as Node)) &&
+            !(menuButton && menuButton.contains(event.target as Node))
+           ) {
+            setIsMenuOpen(false);
+        }
+    }, [isMenuOpen]);
+
+    useEffect(() => {
+        // Use a ref to track clicks outside the menu
+        const clickOutsideRef = (event: MouseEvent) => {
+            const target = event.target as Node;
+            const menuButton = document.querySelector('[aria-label="User menu"]');
+            const menuElement = document.querySelector('[role="menu"]');
+
+            if (isMenuOpen &&
+                !(menuElement && menuElement.contains(target)) &&
+                !(menuButton && menuButton.contains(target))
+               ) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('click', clickOutsideRef);
+        return () => {
+            document.removeEventListener('click', clickOutsideRef);
+        };
+    }, [isMenuOpen]);
+
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (event.key === 'Escape' && isMenuOpen) {
+            setIsMenuOpen(false);
+        }
+    }, [isMenuOpen]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     return (
         <header className="container mx-auto p-4 sm:p-6 lg:p-8">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
                     <LogoIcon className="text-[var(--text-color)]" />
-                    <Link to="/" className="text-xl font-bold text-[var(--text-color)]">TimeCraft</Link>
+                    <Link to="/" className="text-xl font-bold text-[var(--text-color)] truncate">TimeCraft</Link>
                 </div>
                 <div className="flex items-center gap-4">
                     <nav className="hidden md:flex items-center gap-8">
-                        <a href="#" className="font-medium border-b-2 border-[var(--text-color)] pb-1" style={{ color: 'var(--text-color)' }}>Home</a>
-                        <a href="#" className="text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors">Settings</a>
-                        <a href="#" className="text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors">Help</a>
+                        <Link to="/" className={`font-medium pb-1 transition-colors ${location.pathname === '/' ? 'border-b-2 border-[var(--text-color)]' : 'text-[var(--text-muted-color)] hover:text-[var(--text-color)]'}`}>Home</Link>
+                        <Link to="/settings" className={`font-medium pb-1 transition-colors ${location.pathname === '/settings' ? 'border-b-2 border-[var(--text-color)]' : 'text-[var(--text-muted-color)] hover:text-[var(--text-color)]'}`}>Settings</Link>
+                        <Link to="/help" className={`font-medium pb-1 transition-colors ${location.pathname === '/help' ? 'border-b-2 border-[var(--text-color)]' : 'text-[var(--text-muted-color)] hover:text-[var(--text-color)]'}`}>Help</Link>
                     </nav>
                     {user ? (
                         <div className="flex items-center gap-4">
@@ -38,10 +86,10 @@ const Header = ({ onUpgradeClick }: HeaderProps) => {
                             )}
                             <div className="relative">
                                 <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex items-center gap-2 focus:outline-none" aria-haspopup="true" aria-expanded={isMenuOpen} aria-label="User menu">
-                                    <img 
-                                        src={user.firebaseUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.firebaseUser.displayName || 'U')}&background=random&color=fff`} 
-                                        alt="User avatar" 
-                                        className="w-8 h-8 rounded-full bg-slate-400" 
+                                    <img
+                                        src={user.firebaseUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.firebaseUser.displayName || 'U')}&background=random&color=fff`}
+                                        alt="User avatar"
+                                        className="w-8 h-8 rounded-full bg-slate-400"
                                      />
                                 </button>
                                 {isMenuOpen && (

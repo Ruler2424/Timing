@@ -1,3 +1,4 @@
+// components/Stopwatch.tsx
 import React, { useState, useEffect, useRef } from 'react';
 
 const Stopwatch = () => {
@@ -75,7 +76,7 @@ const Stopwatch = () => {
                 </button>
             </div>
             {laps.length > 0 && (
-                <div className="text-xs text-slate-400 font-mono self-start w-full">
+                <div className="text-xs text-slate-400 font-mono self-start w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
                     Last Lap: {formatTime(laps[0])}
                 </div>
             )}

@@ -1,3 +1,4 @@
+// components/PomodoroTimer.tsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 type Mode = 'work' | 'shortBreak' | 'longBreak';
@@ -82,7 +83,7 @@ const PomodoroTimer = () => {
     }) => (
         <button
             onClick={() => switchMode(buttonMode)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+            className={`px-2 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 mode === buttonMode ? 'bg-slate-800 text-white' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
             }`}
         >
@@ -94,8 +95,9 @@ const PomodoroTimer = () => {
         <div className="bg-white rounded-2xl p-6 flex flex-col justify-between shadow-lg h-64">
             <audio ref={audioRef} src="https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3" />
             <div>
-                <h3 className="font-semibold text-slate-800 mb-3">Pomodoro Timer</h3>
-                <div className="flex justify-center gap-2">
+                {/* Уменьшен заголовок */}
+                <h3 className="font-semibold text-slate-800 mb-3 text-lg">Pomodoro Timer</h3> 
+                <div className="flex flex-wrap justify-center gap-2">
                     <ModeButton buttonMode="work">Work</ModeButton>
                     <ModeButton buttonMode="shortBreak">Short Break</ModeButton>
                     <ModeButton buttonMode="longBreak">Long Break</ModeButton>
@@ -103,7 +105,8 @@ const PomodoroTimer = () => {
             </div>
             
             <div className="text-center">
-                <p className="font-digital text-7xl text-slate-800 tracking-wider">{formatTime(timeLeft)}</p>
+                {/* Уменьшен основной таймер */}
+                <p className="font-digital text-6xl text-slate-800 tracking-wider">{formatTime(timeLeft)}</p> 
             </div>
             
             <div className="flex flex-col items-center gap-3">
@@ -117,8 +120,9 @@ const PomodoroTimer = () => {
                     {isActive ? 'PAUSE' : 'START'}
                 </button>
                 <div className="w-full flex justify-between items-center text-xs px-2">
-                    <span className="text-slate-500">Pomodoros: {pomodoros}</span>
-                     <button onClick={handleReset} className="text-slate-500 hover:text-slate-800 font-medium transition-colors">
+                    {/* Уменьшен текст с количеством Pomodoros */}
+                    <span className="text-slate-500 truncate w-1/2 text-sm">Pomodoros: {pomodoros}</span> 
+                     <button onClick={handleReset} className="text-slate-500 hover:text-slate-800 font-medium transition-colors text-sm">
                         Reset
                     </button>
                 </div>

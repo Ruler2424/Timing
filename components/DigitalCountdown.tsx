@@ -1,3 +1,4 @@
+// components/DigitalCountdown.tsx
 import React, { useState, useEffect } from 'react';
 
 const TimeBox = ({ value, label }: { value: string; label: string }) => (
@@ -5,7 +6,7 @@ const TimeBox = ({ value, label }: { value: string; label: string }) => (
     <div className="w-16 h-16 bg-slate-200/50 rounded-lg flex items-center justify-center">
       <span className="font-digital text-4xl text-slate-800">{value}</span>
     </div>
-    <span className="text-xs text-slate-500 mt-2">{label}</span>
+    <span className="text-xs text-slate-500 mt-2 truncate">{label}</span>
   </div>
 );
 
@@ -61,7 +62,7 @@ const DigitalCountdown = () => {
                     />
                 ))}
             </div>
-            <div className="text-center text-slate-400 text-sm">
+            <div className="text-center text-slate-400 text-sm truncate">
                 Until January 1, {new Date().getFullYear() + 1}
             </div>
         </div>

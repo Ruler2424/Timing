@@ -1,35 +1,42 @@
+// components/IntervalTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 
 const IntervalTimer = () => {
     const [sets, setSets] = useState(8);
-    const [workTime, setWorkTime] = useState(20);
-    const [restTime, setRestTime] = useState(10);
+    // Изменяем state и обработчики для минут
+    const [workTimeMinutes, setWorkTimeMinutes] = useState(1); // По умолчанию 1 минута
+    const [restTimeMinutes, setRestTimeMinutes] = useState(1); // По умолчанию 1 минута
+
+    // Переводим минуты в секунды для внутренней логики
+    const workTimeSeconds = workTimeMinutes * 60;
+    const restTimeSeconds = restTimeMinutes * 60;
 
     const [currentSet, setCurrentSet] = useState(1);
     const [phase, setPhase] = useState<'work' | 'rest' | 'idle'>('idle');
-    const [timeLeft, setTimeLeft] = useState(workTime);
+    const [timeLeft, setTimeLeft] = useState(workTimeSeconds); // Инициализируем секундами
     const [isActive, setIsActive] = useState(false);
 
     const intervalRef = useRef<number | null>(null);
     const workAudioRef = useRef<HTMLAudioElement>(null);
     const restAudioRef = useRef<HTMLAudioElement>(null);
 
-    // Function to safely set time, ensuring it's not negative
+    // Функция для безопасной установки времени (не отрицательное)
     const safeSetTimeLeft = (time: number) => {
         setTimeLeft(Math.max(0, time));
     };
 
-    // Initialize timeLeft when workTime or restTime changes, if not active
+    // Инициализация timeLeft при изменении минут, если таймер не активен
     useEffect(() => {
         if (!isActive) {
             if (phase === 'work' || phase === 'idle') {
-                safeSetTimeLeft(workTime);
+                safeSetTimeLeft(workTimeSeconds);
             } else if (phase === 'rest') {
-                safeSetTimeLeft(restTime);
+                safeSetTimeLeft(restTimeSeconds);
             }
         }
-    }, [workTime, restTime, isActive, phase]);
+    }, [workTimeSeconds, restTimeSeconds, isActive, phase]);
 
+    // Основная логика таймера
     useEffect(() => {
         if (!isActive) {
             if (intervalRef.current) clearInterval(intervalRef.current);
@@ -42,29 +49,29 @@ const IntervalTimer = () => {
                     return prev - 1;
                 }
                 
-                // End of interval
+                // Конец интервала
                 if (phase === 'work') {
                     restAudioRef.current?.play().catch(e => console.error(e));
                     setPhase('rest');
-                    safeSetTimeLeft(restTime); // Ensure restTime is not negative
-                    return restTime;
+                    safeSetTimeLeft(restTimeSeconds); // Устанавливаем время отдыха в секундах
+                    return restTimeSeconds;
                 } else if (phase === 'rest') {
                     if (currentSet < sets) {
                         workAudioRef.current?.play().catch(e => console.error(e));
                         setCurrentSet(c => c + 1);
                         setPhase('work');
-                        safeSetTimeLeft(workTime); // Ensure workTime is not negative
-                        return workTime;
+                        safeSetTimeLeft(workTimeSeconds); // Устанавливаем время работы в секундах
+                        return workTimeSeconds;
                     } else {
-                        // End of workout
+                        // Конец тренировки
                         setIsActive(false);
                         setPhase('idle');
                         setCurrentSet(1);
-                        safeSetTimeLeft(workTime); // Reset to initial work time
-                        return workTime;
+                        safeSetTimeLeft(workTimeSeconds); // Сбрасываем на начальное время работы
+                        return workTimeSeconds;
                     }
                 }
-                return 0; // Should not reach here in normal flow
+                return 0; // Этот код не должен выполняться в нормальном потоке
             });
         }, 1000);
         
@@ -72,12 +79,12 @@ const IntervalTimer = () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
 
-    }, [isActive, phase, currentSet, sets, workTime, restTime]); // Dependencies for the interval
+    }, [isActive, phase, currentSet, sets, workTimeSeconds, restTimeSeconds]); // Зависимости для интервала
 
     const handleStart = () => {
         setCurrentSet(1);
         setPhase('work');
-        safeSetTimeLeft(workTime); // Use safe setter
+        safeSetTimeLeft(workTimeSeconds);
         setIsActive(true);
         workAudioRef.current?.play().catch(e => console.error(e));
     };
@@ -88,23 +95,25 @@ const IntervalTimer = () => {
         setIsActive(false);
         setPhase('idle');
         setCurrentSet(1);
-        safeSetTimeLeft(workTime); // Use safe setter
+        safeSetTimeLeft(workTimeSeconds);
     };
 
-    // Handlers for input changes, ensuring non-negative values
+    // Обработчики для изменения количества подходов
     const handleSetsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(e.target.value);
-        setSets(Math.max(1, value || 1)); // Ensure at least 1 set
+        setSets(Math.max(1, value || 1)); // Убедимся, что минимум 1 подход
     };
 
+    // Обработчики для изменения времени работы (в минутах)
     const handleWorkTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(e.target.value);
-        setWorkTime(Math.max(0, value || 0)); // Ensure at least 0 work time
+        setWorkTimeMinutes(Math.max(0, value || 0)); // Убедимся, что минимум 0 минут
     };
 
+    // Обработчики для изменения времени отдыха (в минутах)
     const handleRestTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(e.target.value);
-        setRestTime(Math.max(0, value || 0)); // Ensure at least 0 rest time
+        setRestTimeMinutes(Math.max(0, value || 0)); // Убедимся, что минимум 0 минут
     };
 
 
@@ -122,7 +131,8 @@ const IntervalTimer = () => {
 
             <div className="text-center">
                  <p className="text-xl font-bold uppercase tracking-widest">{phase}</p>
-                 <p className="font-digital text-7xl tracking-wider">{timeLeft.toString().padStart(2, '0')}</p>
+                 {/* ФорматируемtimeLeft для отображения в формате MM:SS */}
+                 <p className="font-digital text-7xl tracking-wider">{`${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`}</p>
             </div>
             
             {isIdle ? (
@@ -135,30 +145,33 @@ const IntervalTimer = () => {
                             onChange={handleSetsChange} 
                             className="w-full bg-white/20 rounded p-1 text-center focus:outline-none focus:ring-2 focus:ring-white"
                             min="1"
+                            aria-label="Number of sets"
                         />
                     </div>
                      <div>
-                        <label className="block mb-1">Work (s)</label>
+                        <label className="block mb-1">Work (min)</label>
                         <input 
                             type="number" 
-                            value={workTime} 
+                            value={workTimeMinutes} 
                             onChange={handleWorkTimeChange} 
                             className="w-full bg-white/20 rounded p-1 text-center focus:outline-none focus:ring-2 focus:ring-white"
                             min="0"
+                            aria-label="Work time in minutes"
                         />
                     </div>
                      <div>
-                        <label className="block mb-1">Rest (s)</label>
+                        <label className="block mb-1">Rest (min)</label>
                         <input 
                             type="number" 
-                            value={restTime} 
+                            value={restTimeMinutes} 
                             onChange={handleRestTimeChange} 
                             className="w-full bg-white/20 rounded p-1 text-center focus:outline-none focus:ring-2 focus:ring-white"
                             min="0"
+                            aria-label="Rest time in minutes"
                         />
                     </div>
                 </div>
-            ) : <div className="h-14"></div>} {/* Placeholder to maintain layout */}
+            ) : <div className="h-14"></div>} {/* Placeholder для поддержания макета */}
             
             <div className="flex gap-4">
                 {isIdle ? (

@@ -1,3 +1,4 @@
+// components/icons.tsx
 import React from 'react';
 
 export const LogoIcon = ({ className }: { className?: string }) => (

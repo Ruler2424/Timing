@@ -1,3 +1,4 @@
+// components/TimeTracker.tsx
 import React, { useState, useEffect, useRef } from 'react';
 
 interface Task {
@@ -59,7 +60,7 @@ const TimeTracker = () => {
                     value={taskName}
                     onChange={(e) => setTaskName(e.target.value)}
                     placeholder="What are you working on?"
-                    className="w-full bg-slate-100 border border-slate-300 rounded-lg px-3 py-2 text-slate-700"
+                    className="w-full bg-slate-100 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     disabled={isActive}
                 />
                 <p className="font-digital text-5xl text-slate-800 my-2">{formatDuration(time)}</p>
@@ -77,9 +78,9 @@ const TimeTracker = () => {
                 {tasks.length > 0 ? (
                     <ul>
                         {tasks.slice(-3).reverse().map((task, index) => (
-                            <li key={index} className="flex justify-between">
-                                <span>{task.name}</span>
-                                <span>{formatDuration(task.duration)}</span>
+                            <li key={index} className="flex justify-between truncate">
+                                <span className="w-3/4 overflow-hidden text-ellipsis">{task.name}</span>
+                                <span className="w-1/4 text-right">{formatDuration(task.duration)}</span>
                             </li>
                         ))}
                     </ul>

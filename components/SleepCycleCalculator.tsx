@@ -1,3 +1,4 @@
+// components/SleepCycleCalculator.tsx
 import React, { useState, useEffect } from 'react';
 import { MoonIcon } from './icons.tsx';
 import { useCurrentTime } from '../hooks/useCurrentTime.ts';
@@ -37,12 +38,12 @@ const SleepCycleCalculator = () => {
             </div>
 
             <div className="flex-grow flex flex-col justify-center text-center">
-                <p className="text-slate-600 mb-2">Go to bed now to wake up fresh at:</p>
-                <div className="grid grid-cols-3 gap-2">
+                <p className="text-slate-600 mb-2 truncate">Go to bed now to wake up fresh at:</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {wakeUpTimes.slice(0, 6).map((time, index) => (
                         <button 
                             key={index} 
-                            className="bg-blue-100 hover:bg-blue-200 text-blue-800 font-bold py-2 px-2 rounded-lg transition-colors"
+                            className="bg-blue-100 hover:bg-blue-200 text-blue-800 font-bold py-2 px-2 rounded-lg transition-colors text-xs sm:text-sm"
                             aria-label={`Wake up at ${formatTime(time)}`}
                         >
                             {formatTime(time)}
@@ -51,7 +52,7 @@ const SleepCycleCalculator = () => {
                 </div>
             </div>
 
-            <p className="text-xs text-slate-400 text-center">
+            <p className="text-xs text-slate-400 text-center truncate">
                 Calculations are based on 90-minute sleep cycles.
             </p>
         </div>

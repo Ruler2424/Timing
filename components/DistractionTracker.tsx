@@ -1,3 +1,4 @@
+// components/DistractionTracker.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { CoffeeIcon } from './icons.tsx';
 
@@ -49,18 +50,18 @@ const DistractionTracker = () => {
                 {isDistracted ? (
                     <>
                         <p className="font-digital text-4xl text-amber-600">{formatDuration(distractionTime)}</p>
-                        <p className="text-sm text-slate-500">Currently distracted</p>
+                        <p className="text-sm text-slate-500 truncate">Currently distracted</p>
                     </>
                 ) : (
                     <>
                         <p className="text-lg text-slate-700">Focused</p>
-                         <p className="text-sm text-slate-400">Press button to track</p>
+                         <p className="text-sm text-slate-400 truncate">Press button to track</p>
                     </>
                 )}
             </div>
 
             <div className="w-full flex flex-col items-center gap-2">
-                 <p className="text-xs text-slate-500">
+                 <p className="text-xs text-slate-500 truncate w-full text-center">
                     Total distraction today: {formatDuration(totalDistractionTime)}
                 </p>
                 <button

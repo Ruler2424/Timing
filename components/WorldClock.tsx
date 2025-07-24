@@ -1,3 +1,4 @@
+// components/WorldClock.tsx
 import React from 'react';
 import { useCurrentTime } from '../hooks/useCurrentTime.ts';
 import { City } from '../types.ts';
@@ -35,13 +36,15 @@ const WorldClock = () => {
           <p className="text-4xl font-light tracking-wide">{formatTime(currentTime, mainCity.timeZone, { hour: '2-digit', minute: '2-digit', hour12: false })}</p>
           <p className="text-slate-400">{mainCity.name}</p>
         </div>
-        <button className="text-slate-400 hover:text-white transition-colors"><SearchIcon className="w-6 h-6"/></button>
+        <button className="text-slate-400 hover:text-white transition-colors" aria-label="Search cities">
+          <SearchIcon className="w-6 h-6"/>
+        </button>
       </div>
-      <div className="grid grid-cols-4 gap-x-4 gap-y-2 text-sm flex-grow">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2 text-sm flex-grow overflow-hidden">
         {otherCities.map(city => (
-            <div key={city.name}>
-                <p className="text-slate-400">{city.name.substring(0,5).toUpperCase()}</p>
-                <p>{formatTime(currentTime, city.timeZone, { hour: '2-digit', minute: '2-digit', hour12: false })}</p>
+            <div key={city.name} className="overflow-hidden">
+                <p className="text-slate-400 truncate">{city.name.toUpperCase()}</p>
+                <p className="truncate">{formatTime(currentTime, city.timeZone, { hour: '2-digit', minute: '2-digit', hour12: false })}</p>
             </div>
         ))}
       </div>

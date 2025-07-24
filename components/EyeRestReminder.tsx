@@ -1,3 +1,4 @@
+// components/EyeRestReminder.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { EyeIcon } from './icons.tsx';
 
@@ -74,7 +75,7 @@ const EyeRestReminder = () => {
                  {mode === 'rest' && isActive ? (
                      <div>
                         <p className="font-bold text-green-700 text-lg">Time to rest!</p>
-                        <p className="text-green-600">Look 20 feet away for {timeLeft} seconds.</p>
+                        <p className="text-green-600 truncate max-w-xs">Look 20 feet away for {timeLeft} seconds.</p>
                      </div>
                  ) : (
                      <div>
@@ -83,7 +84,7 @@ const EyeRestReminder = () => {
                      </div>
                  )}
             </div>
-            <p className="text-xs text-slate-400 text-center">Follow the 20-20-20 rule to reduce eye strain.</p>
+            <p className="text-xs text-slate-400 text-center truncate">Follow the 20-20-20 rule to reduce eye strain.</p>
         </div>
     );
 };

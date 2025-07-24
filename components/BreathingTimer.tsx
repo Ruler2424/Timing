@@ -1,3 +1,4 @@
+// components/BreathingTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 
 const PHASES = [
@@ -25,8 +26,9 @@ const BreathingTimer = () => {
                     return prev - 1;
                 }
                 // Time for next phase
-                setPhaseIndex(currentPhaseIndex => (currentPhaseIndex + 1) % PHASES.length);
-                return PHASES[(phaseIndex + 1) % PHASES.length].duration;
+                const nextPhaseIndex = (phaseIndex + 1) % PHASES.length;
+                setPhaseIndex(nextPhaseIndex);
+                return PHASES[nextPhaseIndex].duration;
             });
         }, 1000);
 

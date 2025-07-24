@@ -1,3 +1,4 @@
+// components/FocusTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 
 const FocusTimer = () => {
@@ -53,13 +54,13 @@ const FocusTimer = () => {
 
             {isActive ? (
                 <div className="flex-grow flex flex-col items-center justify-center text-center">
-                    <p className="font-digital text-7xl tracking-wider">{formatTime(timeLeft)}</p>
-                    <p className="opacity-70">Stay focused...</p>
+                    <p className="font-digital text-5xl tracking-wider">{formatTime(timeLeft)}</p>
+                    <p className="opacity-70 truncate">Stay focused...</p>
                 </div>
             ) : (
                 <div className="flex-grow flex flex-col items-center justify-center text-center">
                     <p className="text-lg mb-4">Select duration and begin.</p>
-                    <div className="flex justify-center gap-2">
+                    <div className="flex flex-wrap justify-center gap-2">
                         <DurationButton minutes={30} />
                         <DurationButton minutes={60} />
                         <DurationButton minutes={90} />

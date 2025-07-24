@@ -1,3 +1,4 @@
+// components/MeditationTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { BellIcon } from './icons.tsx';
 

@@ -1,14 +1,16 @@
+// components/FlowTimer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { SoundWaveIcon } from './icons.tsx';
 
+// Обновляем массив SOUNDS, чтобы пути к звукам были относительными к папке public
 const SOUNDS = [
-    { name: 'Rain', src: 'https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3' },
-    { name: 'Forest', src: 'https://assets.mixkit.co/sfx/preview/mixkit-forest-at-night-1233.mp3' },
-    { name: 'Cafe', src: 'https://assets.mixkit.co/sfx/preview/mixkit-small-group-of-people-in-a-cafe-2013.mp3' },
+    { name: 'Rain', src: '/sounds/rain.mp3' }, // Пример пути, убедитесь, что файл существует
+    { name: 'Forest', src: '/sounds/forest.mp3' }, // Пример пути
+    { name: 'Cafe', src: '/sounds/cafe.mp3' },     // Пример пути
 ];
 
 const FlowTimer = () => {
-    const [duration, setDuration] = useState(5400); // 90 minutes
+    const [duration, setDuration] = useState(5400); // 90 минут
     const [timeLeft, setTimeLeft] = useState(duration);
     const [isActive, setIsActive] = useState(false);
     const [selectedSound, setSelectedSound] = useState<string | null>(null);
@@ -23,7 +25,10 @@ const FlowTimer = () => {
             }, 1000);
         } else if (timeLeft === 0) {
             setIsActive(false);
-            if(audioRef.current) audioRef.current.pause();
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0; // Сбрасываем воспроизведение
+            }
         }
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
@@ -34,15 +39,18 @@ const FlowTimer = () => {
         if (audioRef.current) {
             if (isActive && selectedSound) {
                 audioRef.current.src = selectedSound;
-                audioRef.current.play().catch(e => console.error(e));
+                audioRef.current.play().catch(e => console.error("Error playing sound:", e));
             } else {
                 audioRef.current.pause();
+                audioRef.current.currentTime = 0; // Сбрасываем воспроизведение при остановке
             }
         }
     }, [isActive, selectedSound]);
 
     useEffect(() => {
-        if (!isActive) setTimeLeft(duration);
+        if (!isActive) {
+             setTimeLeft(duration);
+        }
     }, [duration, isActive]);
 
     const handleStartStop = () => setIsActive(!isActive);
@@ -54,11 +62,12 @@ const FlowTimer = () => {
         return `${h}:${m}:${s}`;
     };
     
-    const progress = ((duration - timeLeft) / duration) * 100;
+    const progress = duration === 0 ? 0 : ((duration - timeLeft) / duration) * 100; // Избегаем деления на ноль
 
     return (
         <div className="bg-white rounded-2xl p-6 flex flex-col justify-between shadow-lg h-64">
-            <audio ref={audioRef} loop />
+            {/* Добавляем элемент audio, src которого будет устанавливаться динамически */}
+            <audio ref={audioRef} loop /> 
             <div className="flex justify-between items-center">
                 <h3 className="font-semibold text-slate-800">Flow Timer</h3>
                 <SoundWaveIcon className="w-6 h-6 text-slate-400" />
@@ -66,7 +75,7 @@ const FlowTimer = () => {
 
             <div className="text-center my-2">
                 <p className="font-digital text-6xl text-slate-800">{formatTime(timeLeft)}</p>
-                <p className="text-sm text-slate-500">Duration: {duration/60} minutes</p>
+                <p className="text-sm text-slate-500 truncate">Duration: {duration/60} minutes</p>
             </div>
 
             <div className="space-y-4">
@@ -76,7 +85,7 @@ const FlowTimer = () => {
                     </div>
                      <input
                         type="range"
-                        min="1800" max="7200" step="900"
+                        min="1800" max="7200" step="900" // Диапазон от 30 минут до 120 минут с шагом 15 минут
                         value={duration}
                         onChange={e => setDuration(Number(e.target.value))}
                         disabled={isActive}
@@ -88,7 +97,7 @@ const FlowTimer = () => {
                     <select 
                         value={selectedSound || ''} 
                         onChange={e => setSelectedSound(e.target.value)}
-                        className="flex-grow bg-slate-100 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 text-sm"
+                        className="flex-grow bg-slate-100 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         aria-label="Select soundscape"
                     >
                         <option value="">No Sound</option>
