@@ -20,7 +20,7 @@ import SleepCycleCalculator from './components/SleepCycleCalculator.tsx';
 import DistractionTracker from './components/DistractionTracker.tsx';
 import AgendaWidget from './components/AgendaWidget.tsx';
 import FocusTimer from './components/FocusTimer.tsx';
-import SettingsPage from './components/SettingsPage.tsx'; // Импорт нового компонента
+import SettingsPage from './components/SettingsPage.tsx'; 
 import { useAuth } from './hooks/useAuth.ts';
 import SubscriptionModal from './components/SubscriptionModal.tsx';
 import { LockIcon } from './components/icons.tsx';
@@ -30,7 +30,7 @@ import { AudioProvider } from './utils/sounds/playSound.tsx';
 import { useSettings, AppSettings, SoundAsset } from './hooks/useSettings.ts'; 
 
 // react-router-dom
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'; // Added useNavigate
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'; 
 // Helmet for dynamic meta tags
 import { Helmet } from 'react-helmet-async'; 
 
@@ -56,7 +56,7 @@ const App = () => {
   const [theme, setTheme] = useState('light');
   const { settings, updateSettings, isLoaded, availableSounds } = useSettings(); 
   const location = useLocation();
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate(); 
 
   // Dynamically update page title and meta description
   const getPageTitle = useCallback(() => {
@@ -100,14 +100,13 @@ const App = () => {
 
   const openUpgradeModal = useCallback(() => {
     if (!user) {
-      // Redirect to sign-in or handle authentication flow
-      // For simplicity, let's just open the modal which prompts sign-in
-       setIsModalOpen(true); 
+      // If user is not logged in, prompt sign-in perhaps via modal or redirect
+       setIsModalOpen(true); // Assuming modal handles sign-in prompt
     } else {
       setIsModalOpen(true);
     }
   }, [user]);
-
+  
   const handleThemeChange = useCallback((newTheme: string) => {
     setTheme(newTheme);
   }, []);
@@ -181,17 +180,14 @@ const App = () => {
                             <WidgetSection title="Focus & Productivity">
                                 <PomodoroTimer />
                                 <FlowTimer />
-                                {/* Pass correct props */}
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><FocusTimer /></ProWidgetWrapper>
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><IntervalTimer /></ProWidgetWrapper>
                             </WidgetSection>
 
                             <WidgetSection title="Clocks & Timers">
-                                {/* Pass settings correctly */}
                                 <CountdownTimer countdownSoundSrc={settings.countdownSound.src} /> 
                                 <Stopwatch />
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><WorldClock /></ProWidgetWrapper>
-                                {/* Pass settings correctly */}
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><AlarmClock alarmSoundSrc={settings.alarmSound.src} /> </ProWidgetWrapper>
                             </WidgetSection>
 
@@ -220,8 +216,6 @@ const App = () => {
                     } />
                     <Route path="/terms" element={<TermsOfUse />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
-                    {/* Add a catch-all 404 route if needed */}
-                    {/* <Route path="*" element={<NotFoundPage />} /> */}
                 </Routes>
             </main>
             <Footer />

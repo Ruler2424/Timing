@@ -6,24 +6,29 @@
     {/* Google Site Verification */}
     <meta name="google-site-verification" content="9JyMyl6n6EhEVDWdNkZYz91qgLzdZDu0sn_VjlIfeak" />
     
+    {/* Favicon Link - Assumes favicon.ico is in the public folder */}
+    <link rel="icon" href="/favicon.ico" /> 
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> {/* Optional: For iOS devices */}
+    <link rel="manifest" href="/site.webmanifest" /> {/* Optional: PWA manifest */}
+
     {/* Basic SEO Meta Tags - Title will be dynamically updated by Helmet */}
     <title>Time Widgets Dashboard</title> 
     <meta name="description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
     
-    {/* Open Graph / Facebook Meta Tags */}
+    {/* Open Graph / Facebook Meta Tags - Also dynamically updated by Helmet */}
     <meta property="og:title" content="Time Widgets Dashboard" />
     <meta property="og:description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://timing-five.vercel.app/" />
-    <meta property="og:image" content="https://timing-five.vercel.app/og-image.png" /> {/* Replace with actual URL to your OG image */}
+    <meta property="og:image" content="https://timing-five.vercel.app/og-image.png" /> {/* NOTE: Add og-image.png to your public folder */}
 
-    {/* Twitter Meta Tags */}
+    {/* Twitter Meta Tags - Also dynamically updated by Helmet */}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Time Widgets Dashboard" />
     <meta name="twitter:description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
-    <meta name="twitter:image" content="https://timing-five.vercel.app/twitter-image.png" /> {/* Replace with actual URL to your Twitter image */}
+    <meta name="twitter:image" content="https://timing-five.vercel.app/twitter-image.png" /> {/* NOTE: Add twitter-image.png to your public folder */}
     
-    {/* Canonical Link */}
+    {/* Canonical Link - Dynamically updated by Helmet */}
     <link rel="canonical" href="https://timing-five.vercel.app/" />
 
     {/* Fonts and Tailwind CDN */}
@@ -84,6 +89,38 @@
       }
     </script>
     <link rel="stylesheet" href="/index.css" /> {/* Assuming index.css might contain additional styles */}
+
+    {/* JSON-LD Schema Markup for Organization and Website */}
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://timing-five.vercel.app/#organization",
+          "name": "TimeCraft",
+          "url": "https://timing-five.vercel.app/",
+          "logo": "https://timing-five.vercel.app/logo.png", // NOTE: Add logo.png to your public folder
+          "sameAs": [
+            // Add your actual social media profile URLs here
+            "https://www.facebook.com/YourProfile", 
+            "https://twitter.com/YourProfile",
+            "https://www.instagram.com/YourProfile",
+            "https://www.youtube.com/YourChannel",
+            "https://www.linkedin.com/in/YourProfile" 
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://timing-five.vercel.app/#website",
+          "url": "https://timing-five.vercel.app/",
+          "name": "TimeCraft - Productivity & Time Tools Dashboard",
+          "description": "A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page.",
+          "publisher": {
+            "@id": "https://timing-five.vercel.app/#organization"
+          }
+        }
+      ]
+    })}} />
   </head>
   <body class="bg-slate-100"> {/* Default theme class */}
     <div id="root"></div>
