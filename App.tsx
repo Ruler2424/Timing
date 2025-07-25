@@ -46,8 +46,8 @@ const WidgetSection = ({ title, children }: { title: string; children: React.Rea
 
 // Define metadata based on metadata.json
 const appMetadata = {
-  name: "React Time Widgets Dashboard",
-  description: "A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page."
+  name: "Timing - All Timers That You Need",
+  description: "Manage your time effectively with online timers, alarms, stopwatches, Pomodoro, and more — all in one place at Timing"
 };
 
 const App = () => {

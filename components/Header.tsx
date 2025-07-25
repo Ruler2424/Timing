@@ -64,7 +64,7 @@ const Header = ({ onUpgradeClick }: HeaderProps) => {
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
                     <LogoIcon className="text-[var(--text-color)]" />
-                    <Link to="/" className="text-xl font-bold text-[var(--text-color)] truncate">TimeCraft</Link>
+                    <Link to="/" className="text-xl font-bold text-[var(--text-color)] truncate">Timing</Link>
                 </div>
                 <div className="flex items-center gap-4">
                     <nav className="hidden md:flex items-center gap-8">
