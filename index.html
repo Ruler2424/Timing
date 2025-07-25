@@ -3,52 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {/* Google Site Verification */}
-    <meta name="google-site-verification" content="9JyMyl6n6EhEVDWdNkZYz91qgLzdZDu0sn_VjlIfeak" />
-    
-    {/* Favicon Link - Assumes favicon.ico is in the public folder */}
-    <link rel="icon" href="/favicon.ico" /> 
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> {/* Optional: For iOS devices */}
-    <link rel="manifest" href="/site.webmanifest" /> {/* Optional: PWA manifest */}
 
-    {/* Basic SEO Meta Tags - Title will be dynamically updated by Helmet */}
-    <title>Time Widgets Dashboard</title> 
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="9JyMyl6n6EhEVDWdNkZYz91qgLzdZDu0sn_VjlIfeak" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Basic SEO Meta Tags -->
+    <title>Time Widgets Dashboard</title>
     <meta name="description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
-    
-    {/* Open Graph / Facebook Meta Tags - Also dynamically updated by Helmet */}
+
+    <!-- Open Graph -->
     <meta property="og:title" content="Time Widgets Dashboard" />
     <meta property="og:description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://timing-five.vercel.app/" />
-    <meta property="og:image" content="https://timing-five.vercel.app/og-image.png" /> {/* NOTE: Add og-image.png to your public folder */}
+    <meta property="og:image" content="https://timing-five.vercel.app/og-image.png" />
 
-    {/* Twitter Meta Tags - Also dynamically updated by Helmet */}
+    <!-- Twitter Meta -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Time Widgets Dashboard" />
     <meta name="twitter:description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
-    <meta name="twitter:image" content="https://timing-five.vercel.app/twitter-image.png" /> {/* NOTE: Add twitter-image.png to your public folder */}
-    
-    {/* Canonical Link - Dynamically updated by Helmet */}
+    <meta name="twitter:image" content="https://timing-five.vercel.app/twitter-image.png" />
+
+    <!-- Canonical -->
     <link rel="canonical" href="https://timing-five.vercel.app/" />
 
-    {/* Fonts and Tailwind CDN */}
+    <!-- Fonts & Tailwind -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    {/* Custom Styles - Consider moving to a separate CSS file */}
+
+    <!-- Custom Styles -->
     <style>
       body {
         font-family: 'Inter', sans-serif;
-        --bg-color: #f1f5f9; /* slate-100 */
-        --text-color: #1e293b; /* slate-800 */
-        --text-muted-color: #64748b; /* slate-500 */
+        --bg-color: #f1f5f9;
+        --text-color: #1e293b;
+        --text-muted-color: #64748b;
         --card-bg-color: white;
-        --footer-bg-color: #e2e8f0; /* slate-200 */
-        --footer-text-color: #475569; /* slate-600 */
-        --link-hover-color: #1d4ed8; /* blue-700 */
-        --border-color: #cbd5e1; /* slate-300 */
+        --footer-bg-color: #e2e8f0;
+        --footer-text-color: #475569;
+        --link-hover-color: #1d4ed8;
+        --border-color: #cbd5e1;
         background-color: var(--bg-color);
         color: var(--text-color);
         transition: background-color 0.3s, color 0.3s;
@@ -57,28 +58,28 @@
         font-family: 'Roboto Mono', monospace;
       }
       .dark {
-        --bg-color: #1e293b; /* slate-800 */
-        --text-color: #f1f5f9; /* slate-100 */
-        --text-muted-color: #94a3b8; /* slate-400 */
-        --card-bg-color: #334155; /* slate-700 */
-        --footer-bg-color: #334155; /* slate-700 */
-        --footer-text-color: #94a3b8; /* slate-400 */
-        --link-hover-color: #60a5fa; /* blue-400 */
-        --border-color: #475569; /* slate-700 */
+        --bg-color: #1e293b;
+        --text-color: #f1f5f9;
+        --text-muted-color: #94a3b8;
+        --card-bg-color: #334155;
+        --footer-bg-color: #334155;
+        --footer-text-color: #94a3b8;
+        --link-hover-color: #60a5fa;
+        --border-color: #475569;
       }
       .theme-blue {
-        --bg-color: #EBF4FF; /* A light blue */
-        --text-color: #2C5282; /* A dark blue */
+        --bg-color: #EBF4FF;
+        --text-color: #2C5282;
         --text-muted-color: #6A85A3;
         --card-bg-color: white;
-        --footer-bg-color: #BFDBFE; /* blue-200 */
-        --footer-text-color: #1E40AF; /* blue-800 */
-        --link-hover-color: #1D4ED8; /* blue-700 */
-        --border-color: #93C5FD; /* blue-300 */
+        --footer-bg-color: #BFDBFE;
+        --footer-text-color: #1E40AF;
+        --link-hover-color: #1D4ED8;
+        --border-color: #93C5FD;
       }
     </style>
-    
-    {/* Import Map for ESM */}
+
+    <!-- Import Maps for ESM (browser-only usage) -->
     <script type="importmap">
       {
         "imports": {
@@ -88,41 +89,44 @@
         }
       }
     </script>
-    <link rel="stylesheet" href="/index.css" /> {/* Assuming index.css might contain additional styles */}
 
-    {/* JSON-LD Schema Markup for Organization and Website */}
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "@id": "https://timing-five.vercel.app/#organization",
-          "name": "TimeCraft",
-          "url": "https://timing-five.vercel.app/",
-          "logo": "https://timing-five.vercel.app/logo.png", // NOTE: Add logo.png to your public folder
-          "sameAs": [
-            // Add your actual social media profile URLs here
-            "https://www.facebook.com/YourProfile", 
-            "https://twitter.com/YourProfile",
-            "https://www.instagram.com/YourProfile",
-            "https://www.youtube.com/YourChannel",
-            "https://www.linkedin.com/in/YourProfile" 
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://timing-five.vercel.app/#website",
-          "url": "https://timing-five.vercel.app/",
-          "name": "TimeCraft - Productivity & Time Tools Dashboard",
-          "description": "A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page.",
-          "publisher": {
-            "@id": "https://timing-five.vercel.app/#organization"
+    <!-- Custom CSS (optional) -->
+    <link rel="stylesheet" href="/index.css" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://timing-five.vercel.app/#organization",
+            "name": "TimeCraft",
+            "url": "https://timing-five.vercel.app/",
+            "logo": "https://timing-five.vercel.app/logo.png",
+            "sameAs": [
+              "https://www.facebook.com/YourProfile",
+              "https://twitter.com/YourProfile",
+              "https://www.instagram.com/YourProfile",
+              "https://www.youtube.com/YourChannel",
+              "https://www.linkedin.com/in/YourProfile"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://timing-five.vercel.app/#website",
+            "url": "https://timing-five.vercel.app/",
+            "name": "TimeCraft - Productivity & Time Tools Dashboard",
+            "description": "A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page.",
+            "publisher": {
+              "@id": "https://timing-five.vercel.app/#organization"
+            }
           }
-        }
-      ]
-    })}} />
+        ]
+      }
+    </script>
   </head>
-  <body class="bg-slate-100"> {/* Default theme class */}
+  <body class="bg-slate-100">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
