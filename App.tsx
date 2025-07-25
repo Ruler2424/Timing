@@ -151,6 +151,8 @@ const App = () => {
           <title>{getPageTitle()}</title>
           <meta name="description" content={getPageDescription()} />
           <link rel="canonical" href={`https://timing-five.vercel.app${location.pathname}`} />
+          <meta name="keywords" content="timer, alarm clock, pomodoro timer, productivity tools, time management, countdown timer, stopwatch, online timer, focus timer, work timer, study timer, break timer, time tracker, task timer, digital timer, interval timer, kitchen timer, timer app, alarm app, reminder app, time tracking software, time blocking, timeboxing, productivity app, time planner, daily timer, time management techniques, time management app, focus booster, time tracker app, online stopwatch, time audit, work-life balance, mindfulness timer, meditation timer, task management, schedule planner, time budgeting, alarm clock app, countdown clock, productivity dashboard, timer widgets, web timer, timer with alarm, timer for work, timer for study, timer for meditation, time logging, time efficiency, timer dashboard, timer with sound" />
+
           {/* Open Graph tags */}
           <meta property="og:title" content={getPageTitle()} />
           <meta property="og:description" content={getPageDescription()} />
