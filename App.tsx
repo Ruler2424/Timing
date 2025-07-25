@@ -27,29 +27,67 @@ import { LockIcon } from './components/icons.tsx';
 import TermsOfUse from './TermsOfUse.tsx';
 import PrivacyPolicy from './PrivacyPolicy.tsx';
 import { AudioProvider } from './utils/sounds/playSound.tsx';
-// Импортируем useSettings, чтобы получить доступ к settings, updateSettings, isLoaded, И availableSounds
 import { useSettings, AppSettings, SoundAsset } from './hooks/useSettings.ts'; 
 
 // react-router-dom
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'; // Added useNavigate
+// Helmet for dynamic meta tags
+import { Helmet } from 'react-helmet-async'; 
 
 const WidgetSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <section className="mb-12">
-        <h2 className="text-2xl font-bold text-[var(--text-color)] mb-6">{title}</h2>
+        {/* Use h2 for section titles */}
+        <h2 className="text-2xl font-bold text-[var(--text-color)] mb-6">{title}</h2> 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
             {children}
         </div>
     </section>
 );
 
-
+// Define metadata based on metadata.json
+const appMetadata = {
+  name: "React Time Widgets Dashboard",
+  description: "A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page."
+};
 
 const App = () => {
   const { user, loading, signInWithGoogle, upgradeToPro } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [theme, setTheme] = useState('light');
-  // Получаем ВСЕ данные из useSettings: settings, updateSettings, isLoaded, И availableSounds
   const { settings, updateSettings, isLoaded, availableSounds } = useSettings(); 
+  const location = useLocation();
+  const navigate = useNavigate(); // Hook for navigation
+
+  // Dynamically update page title and meta description
+  const getPageTitle = useCallback(() => {
+    switch (location.pathname) {
+      case '/':
+        return `${appMetadata.name} - Productivity & Time Tools`;
+      case '/settings':
+        return 'Settings - TimeCraft';
+      case '/terms':
+        return 'Terms of Use - TimeCraft';
+      case '/privacy':
+        return 'Privacy Policy - TimeCraft';
+      default:
+        return `${appMetadata.name}`;
+    }
+  }, [location.pathname]);
+
+  const getPageDescription = useCallback(() => {
+    switch (location.pathname) {
+      case '/':
+        return appMetadata.description;
+      case '/settings':
+        return 'Configure themes, sounds, and preferences for TimeCraft.';
+      case '/terms':
+        return 'Read the Terms of Use for TimeCraft.';
+      case '/privacy':
+        return 'Review the Privacy Policy for TimeCraft.';
+      default:
+        return appMetadata.description;
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     document.body.className = theme;
@@ -62,41 +100,45 @@ const App = () => {
 
   const openUpgradeModal = useCallback(() => {
     if (!user) {
-      signInWithGoogle();
+      // Redirect to sign-in or handle authentication flow
+      // For simplicity, let's just open the modal which prompts sign-in
+       setIsModalOpen(true); 
     } else {
       setIsModalOpen(true);
     }
-  }, [user, signInWithGoogle]);
+  }, [user]);
 
-  // Обработчик для изменения темы
   const handleThemeChange = useCallback((newTheme: string) => {
     setTheme(newTheme);
   }, []);
   
-  // Обработчик для изменения звука будильника
   const handleAlarmSoundChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSoundId = event.target.value;
-    const sound = availableSounds.find(s => s.id === selectedSoundId); // Теперь availableSounds доступен
+    const sound = availableSounds.find(s => s.id === selectedSoundId);
     if (sound) {
       updateSettings({ alarmSound: sound });
     }
-  }, [availableSounds, updateSettings]); // availableSounds теперь доступен
+  }, [availableSounds, updateSettings]);
 
-  // Обработчик для изменения звука таймера обратного отсчета
   const handleCountdownSoundChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSoundId = event.target.value;
-    const sound = availableSounds.find(s => s.id === selectedSoundId); // Теперь availableSounds доступен
+    const sound = availableSounds.find(s => s.id === selectedSoundId);
     if (sound) {
       updateSettings({ countdownSound: sound });
     }
-  }, [availableSounds, updateSettings]); // availableSounds теперь доступен
-
+  }, [availableSounds, updateSettings]);
 
   if (loading || !isLoaded) { 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-800">
-            <div className="text-xl font-semibold text-slate-700 dark:text-slate-200">Loading...</div>
-        </div>
+        <>
+            <Helmet>
+                <title>Loading...</title>
+                <meta name="description" content="TimeCraft is loading." />
+            </Helmet>
+            <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+                <div className="text-xl font-semibold text-slate-700 dark:text-slate-200">Loading...</div>
+            </div>
+        </>
     );
   }
 
@@ -104,26 +146,52 @@ const App = () => {
 
   return (
     <AudioProvider>
-    <Router>
+      <Router>
+        {/* Helmet section for SEO */}
+        <Helmet>
+          <title>{getPageTitle()}</title>
+          <meta name="description" content={getPageDescription()} />
+          <link rel="canonical" href={`https://timing-five.vercel.app${location.pathname}`} />
+          {/* Open Graph tags */}
+          <meta property="og:title" content={getPageTitle()} />
+          <meta property="og:description" content={getPageDescription()} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={`https://timing-five.vercel.app${location.pathname}`} />
+          <meta property="og:image" content="https://timing-five.vercel.app/og-image.png" /> {/* Add a default OG image */}
+          {/* Twitter Card tags */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={getPageTitle()} />
+          <meta name="twitter:description" content={getPageDescription()} />
+          <meta name="twitter:image" content="https://timing-five.vercel.app/twitter-image.png" /> {/* Add a default Twitter image */}
+        </Helmet>
+
         <div className="min-h-screen flex flex-col">
             <Header onUpgradeClick={openUpgradeModal} />
             <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
+            {/* Main page title */}
+            {location.pathname === '/' && (
+              <h1 className="text-center text-4xl font-bold text-[var(--text-color)] mb-8">
+                TimeCraft: Your All-in-One Timer Dashboard
+              </h1>
+            )}
                 
-
                 <Routes>
                     <Route path="/" element={
                         <>
                             <WidgetSection title="Focus & Productivity">
                                 <PomodoroTimer />
                                 <FlowTimer />
+                                {/* Pass correct props */}
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><FocusTimer /></ProWidgetWrapper>
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><IntervalTimer /></ProWidgetWrapper>
                             </WidgetSection>
 
                             <WidgetSection title="Clocks & Timers">
+                                {/* Pass settings correctly */}
                                 <CountdownTimer countdownSoundSrc={settings.countdownSound.src} /> 
                                 <Stopwatch />
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><WorldClock /></ProWidgetWrapper>
+                                {/* Pass settings correctly */}
                                 <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}><AlarmClock alarmSoundSrc={settings.alarmSound.src} /> </ProWidgetWrapper>
                             </WidgetSection>
 
@@ -143,25 +211,23 @@ const App = () => {
                         </>
                     } />
 
-                    {/* Страница настроек */}
                     <Route path="/settings" element={
                         <SettingsPage 
                             onThemeChange={handleThemeChange} 
                             currentTheme={theme} 
                             onUpgradeClick={openUpgradeModal} 
-                            // availableSounds передается из useSettings() прямо в SettingsPage
                         />
                     } />
-
-                    {/* Страницы Terms и Privacy */}
                     <Route path="/terms" element={<TermsOfUse />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
+                    {/* Add a catch-all 404 route if needed */}
+                    {/* <Route path="*" element={<NotFoundPage />} /> */}
                 </Routes>
             </main>
             <Footer />
             {isModalOpen && <SubscriptionModal onClose={() => setIsModalOpen(false)} onUpgrade={handleUpgrade} />}
         </div>
-    </Router>
+      </Router>
     </AudioProvider>
   );
 };

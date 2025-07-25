@@ -3,12 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {/* Google Site Verification */}
     <meta name="google-site-verification" content="9JyMyl6n6EhEVDWdNkZYz91qgLzdZDu0sn_VjlIfeak" />
-    <title>Time Widgets Dashboard</title>
+    
+    {/* Basic SEO Meta Tags - Title will be dynamically updated by Helmet */}
+    <title>Time Widgets Dashboard</title> 
+    <meta name="description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
+    
+    {/* Open Graph / Facebook Meta Tags */}
+    <meta property="og:title" content="Time Widgets Dashboard" />
+    <meta property="og:description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://timing-five.vercel.app/" />
+    <meta property="og:image" content="https://timing-five.vercel.app/og-image.png" /> {/* Replace with actual URL to your OG image */}
+
+    {/* Twitter Meta Tags */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Time Widgets Dashboard" />
+    <meta name="twitter:description" content="A dashboard of minimalist, time-related mini-applications including a world clock, countdown timer, stopwatch, and alarm clock, all presented as widgets on a single page." />
+    <meta name="twitter:image" content="https://timing-five.vercel.app/twitter-image.png" /> {/* Replace with actual URL to your Twitter image */}
+    
+    {/* Canonical Link */}
+    <link rel="canonical" href="https://timing-five.vercel.app/" />
+
+    {/* Fonts and Tailwind CDN */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    {/* Custom Styles - Consider moving to a separate CSS file */}
     <style>
       body {
         font-family: 'Inter', sans-serif;
@@ -16,6 +40,10 @@
         --text-color: #1e293b; /* slate-800 */
         --text-muted-color: #64748b; /* slate-500 */
         --card-bg-color: white;
+        --footer-bg-color: #e2e8f0; /* slate-200 */
+        --footer-text-color: #475569; /* slate-600 */
+        --link-hover-color: #1d4ed8; /* blue-700 */
+        --border-color: #cbd5e1; /* slate-300 */
         background-color: var(--bg-color);
         color: var(--text-color);
         transition: background-color 0.3s, color 0.3s;
@@ -28,26 +56,36 @@
         --text-color: #f1f5f9; /* slate-100 */
         --text-muted-color: #94a3b8; /* slate-400 */
         --card-bg-color: #334155; /* slate-700 */
+        --footer-bg-color: #334155; /* slate-700 */
+        --footer-text-color: #94a3b8; /* slate-400 */
+        --link-hover-color: #60a5fa; /* blue-400 */
+        --border-color: #475569; /* slate-700 */
       }
       .theme-blue {
         --bg-color: #EBF4FF; /* A light blue */
         --text-color: #2C5282; /* A dark blue */
         --text-muted-color: #6A85A3;
         --card-bg-color: white;
+        --footer-bg-color: #BFDBFE; /* blue-200 */
+        --footer-text-color: #1E40AF; /* blue-800 */
+        --link-hover-color: #1D4ED8; /* blue-700 */
+        --border-color: #93C5FD; /* blue-300 */
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "react/": "https://esm.sh/react@^19.1.0/",
-    "react": "https://esm.sh/react@^19.1.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body class="bg-slate-100">
+    
+    {/* Import Map for ESM */}
+    <script type="importmap">
+      {
+        "imports": {
+          "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+          "react/": "https://esm.sh/react@^19.1.0/",
+          "react": "https://esm.sh/react@^19.1.0"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css" /> {/* Assuming index.css might contain additional styles */}
+  </head>
+  <body class="bg-slate-100"> {/* Default theme class */}
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

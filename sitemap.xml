@@ -2,9 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://timing-five.vercel.app/</loc>
-    <lastmod>2023-10-27T10:00:00+00:00</lastmod> {/* Update with your last modification date */}
-    <changefreq>weekly</changefreq> {/* How often the page is likely to change */}
-    <priority>1.0</priority> {/* Importance of this page relative to others */}
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> {/* Updated modification date */}
+    <changefreq>daily</changefreq> {/* Changed freq as content might update dynamically */}
+    <priority>1.0</priority>
   </url>
-  {/* If you add more specific pages or sections that have unique URLs, add them here */}
+  {/* Consider adding other routes if they contain significant content */}
+  {/* Example: 
+  <url>
+    <loc>https://timing-five.vercel.app/settings</loc>
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> 
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://timing-five.vercel.app/privacy</loc>
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://timing-five.vercel.app/terms</loc>
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  */}
 </urlset>

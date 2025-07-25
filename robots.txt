@@ -1,4 +1,11 @@
 User-agent: *
 Disallow: 
 
+# Sitemap
 Sitemap: https://timing-five.vercel.app/sitemap.xml
+
+# Optional: Add meta tags for search engine visibility
+# You might want to crawl specific sections differently, but for a simple dashboard, allowing all is fine.
+# Example: Disallow crawling of specific admin or temporary paths if they exist
+# Disallow: /admin/
+# Disallow: /temp/
