@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
-import { auth } from '../firebase.ts';
+import { auth } from '../../firebase.ts';
 import {
     onAuthStateChanged,
     GoogleAuthProvider,

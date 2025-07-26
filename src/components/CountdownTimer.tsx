@@ -1,7 +1,7 @@
 // components/CountdownTimer.tsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { TrashIcon } from './icons.tsx';
-import { useAudioPlayer } from '../utils/sounds/playSound.tsx';
+import { useAudioPlayer } from '../../utils/sounds/playSound.tsx';
 
 interface CountdownTimerProps {
     countdownSoundSrc?: string;

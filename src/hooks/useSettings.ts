@@ -1,6 +1,6 @@
 // src/hooks/useSettings.ts
 import { useState, useEffect, useCallback } from 'react';
-import { SoundAsset, availableSounds } from '../utils/sounds/audioAssets'; // Импортируем доступные звуки
+import { SoundAsset, availableSounds } from '../../utils/sounds/audioAssets'; // Импортируем доступные звуки
 
 // Тип для хранения всех настроек
 export interface AppSettings {

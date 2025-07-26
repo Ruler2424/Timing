@@ -1,8 +1,8 @@
 // PrivacyPolicy.tsx
 
 import React from 'react';
-import Header from './components/Header'; // Assuming Header is in ../components
-import Footer from './components/Footer'; // Assuming Footer is in ../components
+import Header from './src/components/Header'; // Assuming Header is in ../components
+import Footer from './src/components/Footer'; // Assuming Footer is in ../components
 import { Helmet } from 'react-helmet-async'; // Import Helmet
 
 function PrivacyPolicy() { // No 'export' here

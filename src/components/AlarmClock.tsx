@@ -1,7 +1,7 @@
 // components/AlarmClock.tsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useCurrentTime } from '../hooks/useCurrentTime.ts';
-import { useAudioPlayer } from '../utils/sounds/playSound.tsx';
+import { useAudioPlayer } from '../../utils/sounds/playSound.tsx';
 
 interface AlarmClockProps {
     alarmSoundSrc?: string;

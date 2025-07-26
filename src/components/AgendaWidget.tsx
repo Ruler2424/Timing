@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ListIcon } from './icons.tsx'; // Предполагается, что ListIcon тоже будет серым
 import { useCurrentTime } from '../hooks/useCurrentTime.ts';
-import { useAudioPlayer } from '../utils/sounds/playSound.tsx';
+import { useAudioPlayer } from '../../utils/sounds/playSound.tsx';
 
 // Интерфейс для элемента расписания
 interface AgendaItem {

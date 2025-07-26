@@ -1,7 +1,7 @@
 // components/WorldClock.tsx
 import React from 'react';
 import { useCurrentTime } from '../hooks/useCurrentTime.ts';
-import { City } from '../types.ts';
+import { City } from '../../types.ts';
 import { SearchIcon } from './icons.tsx';
 
 const cities: City[] = [

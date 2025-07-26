@@ -1,9 +1,9 @@
 // components/SettingsPage.tsx
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSettings, AppSettings, SoundAsset } from '../hooks/useSettings';
-import { useAuth } from '../hooks/useAuth';
+import { useSettings, AppSettings, SoundAsset } from '../hooks/useSettings.ts';
+import { useAuth } from '../hooks/useAuth.ts';
 import { LockIcon } from './icons.tsx';
-import { availableSounds } from '../utils/sounds/audioAssets';
+import { availableSounds } from '../../utils/sounds/audioAssets.ts';
 
 interface SettingsPageProps {
     onThemeChange: (theme: string) => void;
