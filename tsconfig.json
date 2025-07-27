@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext", // Next.js handles this during build
+    "moduleResolution": "bundler", // Next.js handles this during build
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve", // Use "preserve" for Next.js
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "experimentalDecorators": true, // From your original
+    "useDefineForClassFields": false, // From your original
+    "noUncheckedIndexedAccess": true, // Good practice for strict
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "target": "ES2020"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+, "components/icons.tsx", "next.config.js"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,0 +1,17 @@
+# /robots.txt
+# Please be mindful of search engine crawlers.
+
+# Allow all crawlers
+User-agent: *
+Disallow: 
+
+# Sitemap location
+# Ensure this points to the correct, publicly accessible sitemap URL.
+Sitemap: https://timing-five.vercel.app/sitemap.xml
+
+# Future considerations:
+# If you have specific paths you don't want indexed (e.g., admin areas, temporary pages),
+# you can add them here using the Disallow directive.
+# Example:
+# Disallow: /private/
+# Disallow: /account/settings/

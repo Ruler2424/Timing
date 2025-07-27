@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  {/* Homepage */}
+  <url>
+    <loc>https://timing-five.vercel.app/</loc>
+    {/* Consider updating this date whenever significant content changes occur on the homepage */}
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> 
+    {/* Daily frequency is appropriate if the content might update daily (e.g., dynamic data), 
+        otherwise 'weekly' or 'monthly' might be more suitable. */}
+    <changefreq>daily</changefreq> 
+    {/* Priority 1.0 indicates this is the most important page. */}
+    <priority>1.0</priority>
+  </url>
+
+  {/* Static Content Pages */}
+  <url>
+    <loc>https://timing-five.vercel.app/settings</loc>
+    {/* Last modified date for the settings page content */}
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> 
+    {/* Weekly frequency is reasonable for settings pages unless content changes often */}
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://timing-five.vercel.app/terms</loc>
+    {/* Last modified date for the terms page content */}
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> 
+    {/* Yearly frequency is suitable for legal pages that rarely change */}
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://timing-five.vercel.app/privacy</loc>
+    {/* Last modified date for the privacy policy page content */}
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> 
+    {/* Yearly frequency is suitable for legal pages that rarely change */}
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  {/* Add URLs for other specific pages or widgets if they represent unique content sections 
+      that should be indexed independently. Be cautious not to add URLs that are dynamically 
+      generated or require user interaction unless they contain distinct, indexable content. */}
+
+</urlset>

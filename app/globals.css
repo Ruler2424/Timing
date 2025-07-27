@@ -1,0 +1,117 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  Default (Light) Theme:
+  These variables are applied to the <body> element by default.
+*/
+body {
+  font-family: var(--font-inter), sans-serif; /* Using Next.js Font variables */
+  --bg-color: #f1f5f9; /* Light background */
+  --text-color: #1e293b; /* Dark text */
+  --text-muted-color: #64748b; /* Muted text */
+  --card-bg-color: white; /* Card background */
+  --footer-bg-color: #e2e8f0; /* Footer background */
+  --footer-text-color: #475569; /* Footer text */
+  --link-hover-color: #1d4ed8; /* Link hover color */
+  --border-color: #cbd5e1; /* Border color */
+
+  /* Neutral/Accent colors that might change with theme */
+  --button-primary-bg: #3b82f6; /* Blue-500 */
+  --button-primary-hover-bg: #2563eb; /* Blue-600 */
+  --button-text-light: white;
+
+  --button-secondary-bg: #d1d5db; /* Gray-300 */
+  --button-secondary-hover-bg: #9ca3af; /* Gray-400 */
+  --button-text-dark: #1f2937; /* Gray-800 */
+
+  /* For Pomodoro buttons (Work, Short Break, Long Break) */
+  --pomodoro-active-bg: #3b82f6; /* Blue-500 */
+  --pomodoro-active-text: white;
+  --pomodoro-inactive-bg: #e2e8f0; /* Gray-200 */
+  --pomodoro-inactive-text: #475569; /* Slate-600 */
+
+  /* Specific color for Pro Lock icon */
+  --pro-icon-color: #f59e0b; /* Yellow-500 */
+
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme changes */
+}
+
+/* Digital Font Family */
+.font-digital {
+  font-family: var(--font-roboto-mono), monospace;
+}
+.prose h2 {
+  color: var(--text-color);
+}
+
+.prose h3 {
+  color: var(--text-color);
+}
+
+.prose a {
+  color: var(--text-color);
+}
+
+.prose strong {
+  color: var(--text-color);
+}
+
+/* Dark Theme Overrides */
+.dark {
+  --bg-color: #1e293b;
+  --text-color: #f1f5f9;
+  --text-muted-color: #94a3b8;
+  --card-bg-color: #334155;
+  --footer-bg-color: #334155;
+  --footer-text-color: #94a3b8;
+  --link-hover-color: #60a5fa;
+  --border-color: #475569;
+
+  --button-primary-bg: #60a5fa; /* Blue-400 */
+  --button-primary-hover-bg: #3b82f6; /* Blue-500 */
+  --button-text-light: #1e293b; /* Dark text for light button on dark theme */
+
+  --button-secondary-bg: #475569; /* Slate-600 */
+  --button-secondary-hover-bg: #64748b; /* Slate-500 */
+  --button-text-dark: #f1f5f9; /* Light text for dark button on dark theme */
+
+  --pomodoro-active-bg: #60a5fa; /* Blue-400 */
+  --pomodoro-active-text: #1e293b;
+  --pomodoro-inactive-bg: #475569; /* Slate-600 */
+  --pomodoro-inactive-text: #e2e8f0; /* Gray-200 */
+
+  --pro-icon-color: #fcd34d; /* Amber-300 */
+}
+
+/* Blue Accents Theme Overrides */
+.theme-blue {
+  --bg-color: #EBF4FF; /* Light blue background */
+  --text-color: #2C5282; /* Darker blue text */
+  --text-muted-color: #6A85A3; /* Muted blue text */
+  --card-bg-color: white; /* White cards */
+  --footer-bg-color: #BFDBFE; /* Lighter blue footer */
+  --footer-text-color: #1E40AF; /* Dark blue footer text */
+  --link-hover-color: #1D4ED8; /* Stronger blue link hover */
+  --border-color: #93C5FD; /* Light blue border */
+
+  --button-primary-bg: #1D4ED8; /* Darker Blue */
+  --button-primary-hover-bg: #1E40AF; /* Even darker blue */
+  --button-text-light: white;
+
+  --button-secondary-bg: #93C5FD; /* Light blue */
+  --button-secondary-hover-bg: #60A5FA; /* Slightly darker blue */
+  --button-text-dark: #2C5282; /* Dark blue text */
+
+  --pomodoro-active-bg: #1D4ED8; /* Darker Blue */
+  --pomodoro-active-text: white;
+  --pomodoro-inactive-bg: #BFDBFE; /* Lighter blue */
+  --pomodoro-inactive-text: #1E40AF; /* Dark blue */
+
+  --pro-icon-color: #FBBF24; /* Amber-400 */
+}
