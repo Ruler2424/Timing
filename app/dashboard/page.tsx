@@ -9,7 +9,6 @@ import CountdownTimer from '@/components/CountdownTimer';
 import Stopwatch from '@/components/Stopwatch';
 import ProWidgetWrapper from '@/components/ProWidgetWrapper';
 import WorldClock from '@/components/WorldClock';
-import AnalogClock from '@/components/AnalogClock'; // If you have and use this component
 import AlarmClock from '@/components/AlarmClock';
 import DigitalCountdown from '@/components/DigitalCountdown'; // Your DigitalCountdown component
 import PomodoroTimer from '@/components/PomodoroTimer';
