@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useAudioPlayer } from '../utils/sounds/playSound.tsx';
+import { useAudioPlayer } from '../utils/sounds/playSound';
 import useSound from 'use-sound';
 
 interface CountdownTimerProps {
