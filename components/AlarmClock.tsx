@@ -77,7 +77,7 @@ const AlarmClock: React.FC<AlarmClockProps> = ({ alarmSoundSrc = '/sounds/htc_ba
                 </div>
             ) : isAlarmSet ? (
                  <div className="flex flex-col items-center gap-2">
-                    <p className="font-digital text-2xl text-slate-700 truncate" style={{ maxWidth: '200px' }}>Alarm set for {alarmTime}</p>
+                    <p className="font-digital text-l text-slate-700 truncate" style={{ maxWidth: '200px' }}>Alarm set for {alarmTime}</p>
                      <button onClick={handleClearAlarm} className="text-sm text-red-500 hover:underline">
                         Clear Alarm
                     </button>

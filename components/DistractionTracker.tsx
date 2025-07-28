@@ -27,7 +27,7 @@ const DistractionTracker = () => {
         setIsDistracted(prev => {
             const nowDistracted = !prev;
             if (!nowDistracted) { // Stopped being distracted
-                setTotalDistractionTime(total => total + distractionTime);
+                setTotalDistractionTime(total => total + (distractionTime/2));
                 setDistractionTime(0);
             }
             return nowDistracted;

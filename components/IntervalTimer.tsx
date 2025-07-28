@@ -131,9 +131,9 @@ const IntervalTimer = () => {
             </div>
 
             <div className="text-center">
-                 <p className="text-xl font-bold uppercase tracking-widest">{phase}</p>
+                 <p className="text-l mb-4 font-bold uppercase tracking-widest">{phase}</p>
                  {/* ФорматируемtimeLeft для отображения в формате MM:SS */}
-                 <p className="font-digital text-7xl tracking-wider">{`${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`}</p>
+                 <p className="font-digital text-5xl tracking-wider">{`${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`}</p>
             </div>
             
             {isIdle ? (

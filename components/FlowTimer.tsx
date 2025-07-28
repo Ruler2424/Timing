@@ -75,7 +75,7 @@ const FlowTimer = () => {
             </div>
 
             <div className="text-center my-2">
-                <p className="font-digital text-6xl text-slate-800">{formatTime(timeLeft)}</p>
+                <p className="font-digital text-5xl text-slate-800">{formatTime(timeLeft)}</p>
                 <p className="text-sm text-slate-500 truncate">Duration: {duration/60} minutes</p>
             </div>
 

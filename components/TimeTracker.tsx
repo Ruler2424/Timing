@@ -1,4 +1,3 @@
-// components/TimeTracker.tsx
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -29,14 +28,14 @@ const TimeTracker = () => {
     }, [isActive]);
 
     const handleStartStop = () => {
-        if (isActive) { // Stopping the timer
+        if (isActive) {
             setIsActive(false);
-            if(taskName.trim() !== '' && time > 0) {
+            if (taskName.trim() !== '' && time > 0) {
                 setTasks(prevTasks => [...prevTasks, { name: taskName, duration: time }]);
             }
             setTime(0);
             setTaskName('');
-        } else { // Starting the timer
+        } else {
             if (taskName.trim() !== '') {
                 setTime(0);
                 setIsActive(true);
@@ -53,39 +52,44 @@ const TimeTracker = () => {
     };
 
     return (
-        <div className="bg-white rounded-2xl p-6 flex flex-col justify-between shadow-lg h-64">
+        <div className="bg-white rounded-2xl p-4 flex flex-col justify-between shadow-lg h-64">
             <h3 className="font-semibold text-slate-800">Time Tracker</h3>
-            <div className="flex flex-col items-center gap-2">
-                <input
-                    type="text"
-                    value={taskName}
-                    onChange={(e) => setTaskName(e.target.value)}
-                    placeholder="What are you working on?"
-                    className="w-full bg-slate-100 border border-slate-300 rounded-lg px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    disabled={isActive}
-                />
-                <p className="font-digital text-5xl text-slate-800 my-2">{formatDuration(time)}</p>
-                <button 
-                    onClick={handleStartStop} 
+            <input
+                type="text"
+                value={taskName}
+                onChange={(e) => setTaskName(e.target.value)}
+                placeholder="What are you working on?"
+                className="w-full bg-slate-100 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={isActive}
+            />
+            <div className="flex justify-between items-center">
+                <p className="font-digital text-2xl text-slate-800">{formatDuration(time)}</p>
+                <button
+                    onClick={handleStartStop}
                     disabled={!isActive && taskName.trim() === ''}
-                    className={`w-full py-2 rounded-lg text-white font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                    className={`px-4 py-1 rounded-lg text-sm text-white font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
                         isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
                     }`}
                 >
                     {isActive ? 'STOP' : 'START'}
                 </button>
             </div>
-            <div className="text-xs text-slate-500 overflow-y-auto h-12">
+            <div className="text-xs text-slate-500 overflow-y-scroll h-14 pr-1">
                 {tasks.length > 0 ? (
-                    <ul>
-                        {tasks.slice(-3).reverse().map((task, index) => (
-                            <li key={index} className="flex justify-between truncate">
-                                <span className="w-3/4 overflow-hidden text-ellipsis">{task.name}</span>
-                                <span className="w-1/4 text-right">{formatDuration(task.duration)}</span>
-                            </li>
-                        ))}
+                    <ul className="space-y-1">
+                        {tasks
+                            .slice()
+                            .reverse()
+                            .map((task, index) => (
+                                <li key={index} className="flex justify-between truncate">
+                                    <span className="w-3/4 overflow-hidden text-ellipsis">{task.name}</span>
+                                    <span className="w-1/4 text-right">{formatDuration(task.duration)}</span>
+                                </li>
+                            ))}
                     </ul>
-                ) : <p>No tasks tracked yet.</p>}
+                ) : (
+                    <p className="italic text-gray-400">No tasks tracked yet.</p>
+                )}
             </div>
         </div>
     );
