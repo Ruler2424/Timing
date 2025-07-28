@@ -27,10 +27,6 @@ import FocusTimer from '@/components/FocusTimer';
 import { useAuth } from '@/hooks/useAuth';
 import { useSettings } from '@/hooks/useSettings';
 
-// Import for Next.js navigation (if needed for this page)
-import { usePathname } from 'next/navigation'; // Can be used, but not strictly critical for this page's core function
-import { useRouter } from 'next/navigation'; // If programmatic navigation is needed
-
 // Widget Section component to group widgets
 const WidgetSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="mb-12">
@@ -43,8 +39,8 @@ const WidgetSection = ({ title, children }: { title: string; children: React.Rea
 
 // Dashboard Page component
 export default function DashboardPage() {
-  const { user, loading, signInWithGoogle, upgradeToPro } = useAuth(); // Use useAuth hook
-  const { settings, updateSettings, availableSounds } = useSettings(); // Use useSettings hook
+  const { user } = useAuth(); // Use useAuth hook
+  const { settings } = useSettings(); // Use useSettings hook
 
   // State for subscription modal (if it's handled specifically on this page).
   // Note: ClientLayoutContent already has a global modal, so this might not be needed

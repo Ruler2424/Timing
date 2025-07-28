@@ -1,7 +1,7 @@
 // components/FocusTimer.tsx
 'use client'
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useAudioPlayer } from '../utils/sounds/playSound.tsx'; // Импортируем useAudioPlayer
+import { useAudioPlayer } from '../utils/sounds/playSound'; // Импортируем useAudioPlayer
 import useSound from 'use-sound'; // Импортируем useSound для звука завершения
 
 interface FocusTimerProps {

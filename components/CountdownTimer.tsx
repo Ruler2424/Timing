@@ -9,8 +9,7 @@ interface CountdownTimerProps {
 }
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({
-  countdownSoundSrc = '/sounds/htc_basic.mp3',
-  endMusicSrc = '/sounds/end_music.mp3',
+  countdownSoundSrc = '/sounds/htc_basic.mp3'
 }) => {
   const [initialTimeInput, setInitialTimeInput] = useState({ hours: 0, minutes: 5, seconds: 0 });
   const [initialTime, setInitialTime] = useState(0); // Начальное время в секундах
