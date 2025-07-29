@@ -14,18 +14,18 @@ export interface AppSettings {
 
 // Ensure availableSounds is not empty before accessing index 0, though it should be guaranteed by audioAssets.ts.
 // We can use a non-null assertion if we're absolutely certain it always has elements.
-const firstAvailableSound = availableSounds.length > 0 ? availableSounds[0] : { id: 'default', name: 'Default', src: '/sounds/default.mp3' };
-// If availableSounds could truly be empty, you'd need a robust fallback like this,
-// or adjust `audioAssets.ts` to guarantee at least one sound.
-// For now, assuming audioAssets.ts always has entries.
+const firstAvailableSound: SoundAsset = availableSounds.length > 0 
+  ? availableSounds[0]! 
+  : { id: 'default', name: 'Default', src: '/sounds/default.mp3' };
 
-// Default settings values
+
 const defaultSettings: AppSettings = {
-    // Explicitly casting or using guaranteed non-null fallback to satisfy TypeScript
-    alarmSound: availableSounds.find(s => s.id === 'htc_basic') || firstAvailableSound,
-    countdownSound: availableSounds.find(s => s.id === 'htc_basic') || firstAvailableSound,
-    theme: 'light',
+  alarmSound: availableSounds.find(s => s.id === 'htc_basic') ?? firstAvailableSound,
+  countdownSound: availableSounds.find(s => s.id === 'htc_basic') ?? firstAvailableSound,
+  theme: 'light',
 };
+
+
 
 const SETTINGS_STORAGE_KEY = 'appSettings';
 
@@ -41,8 +41,15 @@ export const useSettingsLogic = () => {
 
                 // Safely get SoundAssets from parsed data, falling back to defaults
                 // Ensure the `?.id` doesn't make the whole parsed object undefined.
-                const validAlarmSound = (parsedSettings.alarmSound && availableSounds.find(s => s.id === parsedSettings.alarmSound.id)) || defaultSettings.alarmSound;
-                const validCountdownSound = (parsedSettings.countdownSound && availableSounds.find(s => s.id === parsedSettings.countdownSound.id)) || defaultSettings.countdownSound;
+const validAlarmSound =
+    parsedSettings.alarmSound?.id
+        ? availableSounds.find(s => s.id === parsedSettings.alarmSound!.id) ?? defaultSettings.alarmSound
+        : defaultSettings.alarmSound;
+
+const validCountdownSound =
+    parsedSettings.countdownSound?.id
+        ? availableSounds.find(s => s.id === parsedSettings.countdownSound!.id) ?? defaultSettings.countdownSound
+        : defaultSettings.countdownSound;
 
                 setSettings({
                     ...defaultSettings,

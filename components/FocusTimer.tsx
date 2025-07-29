@@ -1,7 +1,7 @@
 // components/FocusTimer.tsx
 'use client'
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useAudioPlayer } from '../utils/sounds/playSound'; // Correct path assumed
+import { useAudioPlayer } from '../utils/sounds/playSound'; // Путь корректен, как у вас
 import useSound from 'use-sound';
 
 interface FocusTimerProps {
@@ -13,16 +13,21 @@ const FocusTimer: React.FC<FocusTimerProps> = ({
     startSoundSrc = '/sounds/htc_basic.mp3',
     endSoundSrc = '/sounds/htc_basic.mp3',
 }) => {
-    const [duration, setDuration] = useState(3600); // Default 60 minutes
+    const [duration, setDuration] = useState(3600); // 60 минут по умолчанию
     const [timeLeft, setTimeLeft] = useState(duration);
     const [isActive, setIsActive] = useState(false);
     const intervalRef = useRef<number | null>(null);
 
-    const { play, stop, isPlaying } = useAudioPlayer(); // This `isPlaying` should work
-    const [playEndSound, { stop: stopEndSound, isPlaying: isEndSoundPlaying }] = useSound(endSoundSrc, {
+    const { play, stop, isPlaying } = useAudioPlayer();
+
+    // Используем useSound для endSound, controls — объект управления звуком
+    const [playEndSound, controls] = useSound(endSoundSrc, {
         volume: 0.7,
         loop: false,
     });
+
+    // Проверяем, играет ли endSound
+    const isEndSoundPlaying = controls.sound ? controls.sound.playing() : false;
 
     useEffect(() => {
         if (isActive && timeLeft > 0) {
@@ -49,7 +54,7 @@ const FocusTimer: React.FC<FocusTimerProps> = ({
             setTimeLeft(duration);
         }
         setIsActive(true);
-        play(startSoundSrc);
+        play(startSoundSrc).catch(e => console.error('Error playing start sound:', e));
     }, [timeLeft, duration, play, startSoundSrc]);
 
     const handleStop = useCallback(() => {
@@ -58,13 +63,13 @@ const FocusTimer: React.FC<FocusTimerProps> = ({
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
-        if (isPlaying(startSoundSrc)) { // This line specifically mentioned in error
+        if (isPlaying(startSoundSrc)) {
             stop(startSoundSrc);
         }
         if (isEndSoundPlaying) {
-            stopEndSound();
+            controls.stop();
         }
-    }, [stop, startSoundSrc, stopEndSound, isPlaying, isEndSoundPlaying]);
+    }, [stop, startSoundSrc, controls, isPlaying, isEndSoundPlaying]);
 
     const formatTime = useCallback((seconds: number) => {
         const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
@@ -83,7 +88,9 @@ const FocusTimer: React.FC<FocusTimerProps> = ({
             }}
             disabled={isActive}
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors disabled:opacity-50 ${
-                duration === minutes * 60 && !isActive ? 'bg-slate-800 text-white' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
+                duration === minutes * 60 && !isActive
+                    ? 'bg-slate-800 text-white'
+                    : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
             }`}
         >
             {minutes} min
@@ -91,10 +98,14 @@ const FocusTimer: React.FC<FocusTimerProps> = ({
     );
 
     return (
-        <div className={`rounded-2xl p-6 flex flex-col justify-between shadow-lg h-64 text-white transition-colors ${isActive ? 'bg-indigo-600' : 'bg-slate-700'}`}>
+        <div
+            className={`rounded-2xl p-6 flex flex-col justify-between shadow-lg h-64 text-white transition-colors ${
+                isActive ? 'bg-indigo-600' : 'bg-slate-700'
+            }`}
+        >
             <h3 className="font-semibold">Focus Session</h3>
 
-            {isActive || timeLeft === 0 ? (
+            {(isActive || timeLeft === 0) ? (
                 <div className="flex-grow flex flex-col items-center justify-center text-center">
                     <p className="font-digital text-5xl tracking-wider">{formatTime(timeLeft)}</p>
                     <p className="opacity-70 truncate">
@@ -114,7 +125,10 @@ const FocusTimer: React.FC<FocusTimerProps> = ({
 
             <div className="w-full">
                 {isActive ? (
-                    <button onClick={handleStop} className="w-full bg-white/30 hover:bg-white/40 font-bold py-3 rounded-lg">
+                    <button
+                        onClick={handleStop}
+                        className="w-full bg-white/30 hover:bg-white/40 font-bold py-3 rounded-lg"
+                    >
                         STOP
                     </button>
                 ) : (

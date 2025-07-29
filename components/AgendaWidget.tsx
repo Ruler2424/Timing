@@ -44,15 +44,19 @@ const AgendaWidget = () => {
     // agendaAlertSoundSrc is now a guaranteed string from above
 
     const parseTime = (timeString: string) => {
-        const parts = timeString.split(':');
-        if (parts.length < 2) {
-            console.warn(`Invalid time format: ${timeString}`);
-            return { h: NaN, m: NaN };
-        }
-        const h = parseInt(parts[0], 10);
-        const m = parseInt(parts[1], 10);
-        return { h, m };
-    };
+    const parts = timeString.split(':');
+    const [hStr, mStr] = parts;
+
+    if (!hStr || !mStr || isNaN(Number(hStr)) || isNaN(Number(mStr))) {
+        console.warn(`Invalid time format: ${timeString}`);
+        return { h: NaN, m: NaN };
+    }
+
+    const h = parseInt(hStr, 10);
+    const m = parseInt(mStr, 10);
+    return { h, m };
+};
+
 
     const currentItemIndex = (() => {
         const currentTimeInMinutes = now.getHours() * 60 + now.getMinutes();
@@ -154,14 +158,26 @@ const AgendaWidget = () => {
     };
 
     const handleDragEnd = () => {
-        if (dragItem.current === null || dragOverItem.current === null) return;
-        const newList = [...agendaItems];
-        const draggedItem = newList.splice(dragItem.current, 1)[0];
-        newList.splice(dragOverItem.current, 0, draggedItem);
-        setAgendaItems(newList);
-        dragItem.current = null;
-        dragOverItem.current = null;
-    };
+    const fromIndex = dragItem.current;
+    const toIndex = dragOverItem.current;
+
+    if (fromIndex === null || toIndex === null) return;
+
+    const newList = [...agendaItems];
+    const [draggedItem] = newList.splice(fromIndex, 1);
+
+    if (!draggedItem) {
+        console.warn('No item was dragged. Index out of bounds?', fromIndex);
+        return;
+    }
+
+    newList.splice(toIndex, 0, draggedItem);
+    setAgendaItems(newList);
+
+    dragItem.current = null;
+    dragOverItem.current = null;
+};
+
 
     return (
         <div className="bg-white rounded-2xl p-6 flex flex-col shadow-lg h-64">

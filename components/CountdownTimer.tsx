@@ -1,11 +1,12 @@
-'use client'
+'use client';
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAudioPlayer } from '../utils/sounds/playSound';
 import useSound from 'use-sound';
 
 interface CountdownTimerProps {
   countdownSoundSrc?: string;
-  endMusicSrc?: string;
+  endMusicSrc?: string; // в вашем коде пока не используется, но можно добавить
 }
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({
@@ -20,10 +21,14 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
   const { play, stop, isPlaying } = useAudioPlayer();
 
-  const [endMusicPlay, { stop: stopEndMusic, isPlaying: isEndMusicPlaying }] = useSound(countdownSoundSrc, {
+  // useSound возвращает массив: [playFunction, { stop, sound, pause, ... }]
+  const [endMusicPlay, { stop: stopEndMusic, sound }] = useSound(countdownSoundSrc, {
     volume: 0.5,
     loop: false,
   });
+
+  // Проверяем, играет ли звук через sound.playing()
+  const isEndMusicPlaying = sound?.playing ? sound.playing() : false;
 
   useEffect(() => {
     const totalSeconds =
@@ -49,9 +54,12 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
       setIsFinished(true);
       if (intervalRef.current) clearInterval(intervalRef.current);
 
+      // Воспроизведение звука из вашего кастомного плеера
       play(countdownSoundSrc).catch((e) => {
         console.error('Error playing countdown sound:', e);
       });
+
+      // Воспроизведение звука из useSound
       endMusicPlay();
     }
 
@@ -72,12 +80,12 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     }
   }, [timeLeft, isActive, isFinished, initialTime]);
 
-
   const handleReset = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     setIsActive(false);
     setIsFinished(false);
     setTimeLeft(initialTime);
+
     if (isPlaying(countdownSoundSrc)) stop(countdownSoundSrc);
     stopEndMusic();
   }, [initialTime, isPlaying, stop, stopEndMusic, countdownSoundSrc]);
@@ -117,7 +125,6 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   const isIdle = !isActive && timeLeft === initialTime && !isFinished;
   const isPaused = !isActive && timeLeft !== initialTime && !isFinished;
 
-
   return (
     <div
       className={`rounded-2xl p-6 flex flex-col justify-between shadow-lg h-64 text-white transition-colors ${
@@ -131,13 +138,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
       <h3 className="font-semibold">Countdown</h3>
       <div className="text-center">
         <p className="mb-3 text-l font-bold uppercase tracking-widest">
-          {isFinished
-            ? 'Finished'
-            : isActive
-            ? 'Running'
-            : isPaused
-            ? 'Paused'
-            : 'Stopped'}
+          {isFinished ? 'Finished' : isActive ? 'Running' : isPaused ? 'Paused' : 'Stopped'}
         </p>
         <p className="font-digital text-5xl tracking-wider">{formatTime(timeLeft)}</p>
       </div>
