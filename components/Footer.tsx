@@ -21,6 +21,9 @@ const Footer: React.FC = () => {
           <Link href="/terms" className="hover:text-[var(--link-hover-color)] transition-colors duration-200">
             Terms of Use
           </Link>
+          <Link href="/refund" className="hover:text-[var(--link-hover-color)] transition-colors duration-200">
+            Refund Policy
+          </Link>
           <Link href="/blog" className="hover:text-[var(--link-hover-color)] transition-colors duration-200">
             Blog
           </Link>
