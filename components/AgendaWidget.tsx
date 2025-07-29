@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ListIcon } from './icons.tsx';
 import { useCurrentTime } from '../hooks/useCurrentTime.ts';
 import { useAudioPlayer } from '../utils/sounds/playSound.tsx';
@@ -31,7 +31,7 @@ const AgendaWidget = () => {
 
     const currentItemIndex = (() => {
         const currentTime = now.getHours() * 60 + now.getMinutes();
-        return agendaItems.findIndex((item, i) => {
+        return agendaItems.findIndex((item) => {
             const [h, m] = item.time.split(':').map(Number);
             return currentTime < h * 60 + m;
         }) - 1;
