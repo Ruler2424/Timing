@@ -1,23 +1,22 @@
 // app/settings/page.tsx
 'use client'; // Mark as client component
 
-import React, { useCallback } from 'react';
-import SettingsPageComponent from '@/components/SettingsPage'; // Rename to avoid conflict, or adjust component name
+import React, { useCallback, useState } from 'react';
+import SettingsPageComponent from '@/components/SettingsPage';
 import { useSettings } from '@/hooks/useSettings'; // Use settings context hook
 import { useAuth } from '@/hooks/useAuth';
-import SubscriptionModal from '@/components/SubscriptionModal'; // Alias path
-import { useState } from 'react';
-
-// You might need to adjust the SettingsPage component itself to accept props from useSettings
-// Original: onThemeChange, currentTheme, onUpgradeClick
-// Now: settings, updateSettings, availableSounds, onUpgradeClick (from a higher level)
+import SubscriptionModal from '@/components/SubscriptionModal';
 
 export default function SettingsPage() {
-  const { settings, updateSettings, availableSounds } = useSettings();
+  // Get settings and related functions from the useSettings hook
+  // These are used WITHIN this component (e.g., for `currentTheme` prop, or `handleThemeChange` logic)
+  // but should NOT be passed as props to SettingsPageComponent.
+  const { settings, updateSettings } = useSettings(); // Still needed here to derive props for SettingsPageComponent
+
   const { upgradeToPro } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Example of how to handle theme change
+  // Example of how to handle theme change, which updates the settings context
   const handleThemeChange = useCallback((newTheme: string) => {
     updateSettings({ theme: newTheme });
   }, [updateSettings]);
@@ -38,11 +37,12 @@ export default function SettingsPage() {
       </h1>
       <SettingsPageComponent
         onThemeChange={handleThemeChange} // Pass the handler
-        currentTheme={settings.theme} // Pass current theme from settings
-        settings={settings} // Pass all settings
-        updateSettings={updateSettings} // Pass update function
-        availableSounds={availableSounds} // Pass available sounds
+        currentTheme={settings.theme}     // Pass current theme from settings
         onUpgradeClick={openUpgradeModal} // Pass a trigger for the modal
+        // REMOVED THE FOLLOWING PROPS as they are now consumed directly inside SettingsPageComponent via useSettings()
+        // settings={settings}
+        // updateSettings={updateSettings}
+        // availableSounds={availableSounds}
       />
       {isModalOpen && <SubscriptionModal onClose={() => setIsModalOpen(false)} onUpgrade={handleUpgradeFromModal} />}
     </>

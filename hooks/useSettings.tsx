@@ -1,63 +1,69 @@
-// hooks/useSettings.ts
-'use client'; // THIS MUST BE THE VERY FIRST LINE, EXACTLY AS WRITTEN
+// src/hooks/useSettings.tsx
+'use client';
 
-import { useState, useEffect, useCallback, createContext, useContext } from 'react'; // createContext and useContext also need to be here
-import { SoundAsset, availableSounds } from '@/utils/sounds/audioAssets'; // Update import path
+import { useState, useEffect, useCallback, createContext, useContext } from 'react';
+import { SoundAsset, availableSounds } from '@/utils/sounds/audioAssets';
 
 // Typename for storing all settings
 export interface AppSettings {
     alarmSound: SoundAsset;
     countdownSound: SoundAsset;
-    theme: string; // Add theme to settings
+    theme: string;
     // Add other settings here
 }
 
+// Ensure availableSounds is not empty before accessing index 0, though it should be guaranteed by audioAssets.ts.
+// We can use a non-null assertion if we're absolutely certain it always has elements.
+const firstAvailableSound = availableSounds.length > 0 ? availableSounds[0] : { id: 'default', name: 'Default', src: '/sounds/default.mp3' };
+// If availableSounds could truly be empty, you'd need a robust fallback like this,
+// or adjust `audioAssets.ts` to guarantee at least one sound.
+// For now, assuming audioAssets.ts always has entries.
+
 // Default settings values
 const defaultSettings: AppSettings = {
-    alarmSound: availableSounds.find(s => s.id === 'htc_basic') || availableSounds[0],
-    countdownSound: availableSounds.find(s => s.id === 'htc_basic') || availableSounds[0],
-    theme: 'light', // Default theme
+    // Explicitly casting or using guaranteed non-null fallback to satisfy TypeScript
+    alarmSound: availableSounds.find(s => s.id === 'htc_basic') || firstAvailableSound,
+    countdownSound: availableSounds.find(s => s.id === 'htc_basic') || firstAvailableSound,
+    theme: 'light',
 };
 
 const SETTINGS_STORAGE_KEY = 'appSettings';
 
-// This is the core logic hook. We'll create a context provider for it.
-export const useSettingsLogic = () => { // Renamed to avoid confusion with context hook
+export const useSettingsLogic = () => {
     const [settings, setSettings] = useState<AppSettings>(defaultSettings);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Load settings from localStorage on mount
     useEffect(() => {
         try {
             const storedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
             if (storedSettings) {
-                const parsedSettings: AppSettings = JSON.parse(storedSettings);
-                // Check if loaded sounds exist and use defaults if not
-                const validAlarmSound = availableSounds.find(s => s.id === parsedSettings.alarmSound?.id) || defaultSettings.alarmSound;
-                const validCountdownSound = availableSounds.find(s => s.id === parsedSettings.countdownSound?.id) || defaultSettings.countdownSound;
+                const parsedSettings: Partial<AppSettings> = JSON.parse(storedSettings);
+
+                // Safely get SoundAssets from parsed data, falling back to defaults
+                // Ensure the `?.id` doesn't make the whole parsed object undefined.
+                const validAlarmSound = (parsedSettings.alarmSound && availableSounds.find(s => s.id === parsedSettings.alarmSound.id)) || defaultSettings.alarmSound;
+                const validCountdownSound = (parsedSettings.countdownSound && availableSounds.find(s => s.id === parsedSettings.countdownSound.id)) || defaultSettings.countdownSound;
 
                 setSettings({
-                    ...defaultSettings, // Start with defaults to ensure all keys are present
-                    ...parsedSettings, // Then apply parsed settings
+                    ...defaultSettings,
+                    ...parsedSettings,
                     alarmSound: validAlarmSound,
                     countdownSound: validCountdownSound,
-                    theme: parsedSettings.theme || defaultSettings.theme, // Ensure theme is set
+                    theme: parsedSettings.theme || defaultSettings.theme,
                 });
             } else {
-                // If nothing saved, use defaults
                 setSettings(defaultSettings);
             }
         } catch (error) {
             console.error("Failed to load settings:", error);
-            setSettings(defaultSettings); // Reset to defaults in case of error
+            setSettings(defaultSettings);
         } finally {
             setIsLoaded(true);
         }
     }, []);
 
-    // Save settings to localStorage when they change
     useEffect(() => {
-        if (isLoaded) { // Only save after initial load to avoid overwriting defaults with empty
+        if (isLoaded) {
             try {
                 localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
             } catch (error) {
@@ -66,7 +72,6 @@ export const useSettingsLogic = () => { // Renamed to avoid confusion with conte
         }
     }, [settings, isLoaded]);
 
-    // Function to update settings
     const updateSettings = useCallback((newSettings: Partial<AppSettings>) => {
         setSettings(prev => ({ ...prev, ...newSettings }));
     }, []);
@@ -74,7 +79,6 @@ export const useSettingsLogic = () => { // Renamed to avoid confusion with conte
     return { settings, updateSettings, isLoaded, availableSounds };
 };
 
-// Interface for the context value
 interface SettingsContextType {
     settings: AppSettings;
     updateSettings: (newSettings: Partial<AppSettings>) => void;
@@ -85,7 +89,7 @@ interface SettingsContextType {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 export const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
-    const contextValue = useSettingsLogic(); // Use the actual hook logic
+    const contextValue = useSettingsLogic();
     return (
         <SettingsContext.Provider value={contextValue}>
             {children}
@@ -93,7 +97,7 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
     );
 };
 
-export const useSettings = () => { // This is the public hook to use in components
+export const useSettings = () => {
     const context = useContext(SettingsContext);
     if (context === undefined) {
         throw new Error('useSettings must be used within a SettingsProvider');

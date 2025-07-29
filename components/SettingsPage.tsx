@@ -2,34 +2,33 @@
 
 import React, { useCallback } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { AppSettings, SoundAsset } from '../hooks/useSettings'; // Import types
+import { useSettings } from '../hooks/useSettings';
+import { SoundAsset } from '../utils/sounds/audioAssets'; // Import SoundAsset directly
 
 interface SettingsPageProps {
   onThemeChange: (theme: string) => void;
   currentTheme: string;
-  onUpgradeClick: () => void; // Passed from parent
-  settings: AppSettings; // All settings
-  updateSettings: (newSettings: Partial<AppSettings>) => void; // Update function
-  availableSounds: SoundAsset[]; // Available sounds
+  onUpgradeClick: () => void;
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = ({
   onThemeChange,
   currentTheme,
   onUpgradeClick,
-  settings,
-  updateSettings,
-  availableSounds,
 }) => {
   const { user } = useAuth();
   const isPro = user?.role === 'pro';
 
+  const { settings, updateSettings, availableSounds } = useSettings();
+
   const handleAlarmSoundChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedSoundId = event.target.value;
-      const sound = availableSounds.find((s) => s.id === selectedSoundId);
+      const sound = availableSounds.find((s: SoundAsset) => s.id === selectedSoundId); // Explicitly type 's'
       if (sound) {
         updateSettings({ alarmSound: sound });
+      } else {
+        console.warn(`Sound with ID "${selectedSoundId}" not found.`);
       }
     },
     [availableSounds, updateSettings]
@@ -38,9 +37,11 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
   const handleCountdownSoundChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedSoundId = event.target.value;
-      const sound = availableSounds.find((s) => s.id === selectedSoundId);
+      const sound = availableSounds.find((s: SoundAsset) => s.id === selectedSoundId); // Explicitly type 's'
       if (sound) {
         updateSettings({ countdownSound: sound });
+      } else {
+        console.warn(`Sound with ID "${selectedSoundId}" not found.`);
       }
     },
     [availableSounds, updateSettings]
@@ -81,7 +82,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
             onChange={handleAlarmSoundChange}
             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-[var(--bg-color)] text-[var(--text-color)]"
           >
-            {availableSounds.map((sound) => (
+            {availableSounds.map((sound: SoundAsset) => (
               <option key={sound.id} value={sound.id}>
                 {sound.name}
               </option>
@@ -98,7 +99,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({
             onChange={handleCountdownSoundChange}
             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-[var(--bg-color)] text-[var(--text-color)]"
           >
-            {availableSounds.map((sound) => (
+            {availableSounds.map((sound: SoundAsset) => (
               <option key={sound.id} value={sound.id}>
                 {sound.name}
               </option>

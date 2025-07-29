@@ -1,6 +1,6 @@
 // components/AlarmClock.tsx
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useCurrentTime } from '../hooks/useCurrentTime';
 import { useAudioPlayer } from '../utils/sounds/playSound';
 
@@ -33,9 +33,15 @@ const AlarmClock: React.FC<AlarmClockProps> = ({ alarmSoundSrc = '/sounds/htc_ba
     useEffect(() => {
         if (isAlarmSet && !isAlarmRinging && alarmTime) {
             const now = currentTime;
-            const [hours, minutes] = alarmTime.split(':');
-            const alarmHour = parseInt(hours, 10);
-            const alarmMinute = parseInt(minutes, 10);
+            const [hoursStr, minutesStr] = alarmTime.split(':');
+            const alarmHour = parseInt(hoursStr || '0', 10);
+            const alarmMinute = parseInt(minutesStr || '0', 10);
+
+            if (isNaN(alarmHour) || isNaN(alarmMinute)) {
+                console.error("Invalid alarm time format:", alarmTime);
+                setIsAlarmSet(false);
+                return;
+            }
 
             if (now.getHours() === alarmHour && now.getMinutes() === alarmMinute) {
                 setIsAlarmRinging(true);

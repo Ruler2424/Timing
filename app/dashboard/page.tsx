@@ -4,13 +4,12 @@
 import React, { useCallback } from 'react';
 
 // Imports of your widget components
-// Ensure these paths are correct based on your project structure (e.g., '@/components/CountdownTimer')
 import CountdownTimer from '@/components/CountdownTimer';
 import Stopwatch from '@/components/Stopwatch';
-import ProWidgetWrapper from '@/components/ProWidgetWrapper';
+import ProWidgetWrapper from '@/components/ProWidgetWrapper'; // Import ProWidgetWrapper
 import WorldClock from '@/components/WorldClock';
 import AlarmClock from '@/components/AlarmClock';
-import DigitalCountdown from '@/components/DigitalCountdown'; // Your DigitalCountdown component
+import DigitalCountdown from '@/components/DigitalCountdown';
 import PomodoroTimer from '@/components/PomodoroTimer';
 import TimeTracker from '@/components/TimeTracker';
 import MeditationTimer from '@/components/MeditationTimer';
@@ -39,39 +38,16 @@ const WidgetSection = ({ title, children }: { title: string; children: React.Rea
 
 // Dashboard Page component
 export default function DashboardPage() {
-  const { user } = useAuth(); // Use useAuth hook
-  const { settings } = useSettings(); // Use useSettings hook
-
-  // State for subscription modal (if it's handled specifically on this page).
-  // Note: ClientLayoutContent already has a global modal, so this might not be needed
-  // unless you want very specific modal behavior here.
-  // const [isModalOpen, setIsModalOpen] = useState(false); // Likely not needed here if handled globally
+  const { user } = useAuth();
+  const { settings } = useSettings();
 
   const isPro = user?.role === 'pro';
 
-  // Function to trigger the "Upgrade to Pro" modal
-  // This function would typically be passed to the Header and ProWidgetWrapper components.
-  // The actual modal state management is in app/layout.tsx (ClientLayoutContent).
-  // For now, if a ProWidgetWrapper is clicked, it will log a message.
-  // The real logic to open the modal would come from ClientLayoutContent providing a context or callback.
   const openUpgradeModal = useCallback(() => {
     console.log("Triggering upgrade modal from Dashboard.");
-    // In a full application, you might:
-    // setIsModalOpen(true); // if the modal was scoped only to this page
-    // Or call a function from a global context/state if modalOpen is managed globally.
+    // This function would typically interact with a global state/context to open the modal.
+    // Assuming such a mechanism exists or will be implemented elsewhere.
   }, []);
-
-
-  // --- Metadata for this specific page ---
-  // In Next.js App Router, you can export a `metadata` object directly from `page.tsx`.
-  // This will override or extend the general metadata defined in `app/layout.tsx`.
-  // The title for this page will typically follow the template from layout, e.g., "Dashboard - TimeCraft".
-  // If you want a very specific title for *only* this page, you can uncomment and define it:
-  // export const metadata = {
-  //   title: 'Your Timer Dashboard',
-  //   description: 'The central hub for all your time tracking and productivity widgets.',
-  // };
-
 
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
@@ -82,10 +58,10 @@ export default function DashboardPage() {
       <WidgetSection title="Focus & Productivity">
         <PomodoroTimer />
         <FlowTimer />
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="Focus Timer">
           <FocusTimer />
         </ProWidgetWrapper>
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="Interval Timer">
           <IntervalTimer />
         </ProWidgetWrapper>
       </WidgetSection>
@@ -93,10 +69,10 @@ export default function DashboardPage() {
       <WidgetSection title="Clocks & Timers">
         <CountdownTimer countdownSoundSrc={settings.countdownSound.src} />
         <Stopwatch />
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="World Clock">
           <WorldClock />
         </ProWidgetWrapper>
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="Alarm Clock">
           <AlarmClock alarmSoundSrc={settings.alarmSound.src} />
         </ProWidgetWrapper>
       </WidgetSection>
@@ -104,10 +80,10 @@ export default function DashboardPage() {
       <WidgetSection title="Health & Wellness">
         <BreathingTimer />
         <MeditationTimer />
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="Sleep Cycle Calculator">
           <SleepCycleCalculator />
         </ProWidgetWrapper>
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="Eye Rest Reminder">
           <EyeRestReminder />
         </ProWidgetWrapper>
       </WidgetSection>
@@ -115,10 +91,10 @@ export default function DashboardPage() {
       <WidgetSection title="Planning & Analysis">
         <AgendaWidget />
         <TimeTracker />
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="Distraction Tracker">
           <DistractionTracker />
         </ProWidgetWrapper>
-        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal}>
+        <ProWidgetWrapper isPro={isPro} onUpgradeClick={openUpgradeModal} widgetTitle="Digital Countdown">
           <DigitalCountdown />
         </ProWidgetWrapper>
       </WidgetSection>
