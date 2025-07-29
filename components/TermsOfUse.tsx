@@ -7,7 +7,6 @@ import React from 'react';
 
 function TermsOfUse() {
     const pageTitle = "Terms of Use - TimeCraft";
-    const pageDescription = "Read the Terms of Use for TimeCraft, governing your access and use of our time management tools.";
     const lastUpdatedDate = "2024-07-28";
     const contactEmail = "support@timecraft.com";
 

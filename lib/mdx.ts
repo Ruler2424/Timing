@@ -28,7 +28,7 @@ export async function getPostBySlug(slug: string, source: 'blog' = 'blog') {
 
   // Compile the MDX content into a React component.
   // The `components` prop is crucial for allowing MDX to use your React components (like Link, Image).
-  const { content: mdxContent, frontmatter } = await compileMDX({
+  const { content: mdxContent } = await compileMDX({
     source: content,
     options: {
       parseFrontmatter: true, // Tell it to parse frontmatter from the source

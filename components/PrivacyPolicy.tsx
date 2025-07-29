@@ -7,7 +7,6 @@ import React from 'react';
 
 function PrivacyPolicy() {
     const pageTitle = "Privacy Policy - TimeCraft"; // This title is now primarily for browser tab, etc.
-    const pageDescription = "Understand how TimeCraft collects, uses, and protects your data. Read our comprehensive Privacy Policy.";
     const lastUpdatedDate = "2024-07-28"; // Placeholder, update this value
     const contactEmail = "support@timecraft.com"; // Placeholder, update this value
 
