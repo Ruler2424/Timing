@@ -1,7 +1,7 @@
 // components/FlowTimer.tsx
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { SoundWaveIcon } from './icons.tsx';
+import { SoundWaveIcon } from './icons';
 
 // Обновляем массив SOUNDS, чтобы пути к звукам были относительными к папке public
 const SOUNDS = [

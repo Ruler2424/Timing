@@ -1,7 +1,7 @@
 // components/MeditationTimer.tsx
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { BellIcon } from './icons.tsx';
+import { BellIcon } from './icons';
 
 const MeditationTimer = () => {
     const [duration, setDuration] = useState(300);

@@ -1,7 +1,7 @@
 // components/EyeRestReminder.tsx
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { EyeIcon } from './icons.tsx';
+import { EyeIcon } from './icons';
 
 const WORK_INTERVAL = 20 * 60; // 20 minutes
 const REST_INTERVAL = 20; // 20 seconds

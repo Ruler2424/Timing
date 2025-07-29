@@ -2,7 +2,7 @@
 
 import React, { useCallback } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { AppSettings, SoundAsset } from '../hooks/useSettings.tsx'; // Import types
+import { AppSettings, SoundAsset } from '../hooks/useSettings'; // Import types
 
 interface SettingsPageProps {
   onThemeChange: (theme: string) => void;

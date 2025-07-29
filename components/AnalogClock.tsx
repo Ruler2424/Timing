@@ -1,7 +1,7 @@
 // components/AnalogClock.tsx
 'use client'
 import React from 'react';
-import { useCurrentTime } from '../hooks/useCurrentTime.ts';
+import { useCurrentTime } from '../hooks/useCurrentTime';
 
 const AnalogClock = () => {
   const currentTime = useCurrentTime();

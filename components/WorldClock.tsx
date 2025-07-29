@@ -1,9 +1,9 @@
 // components/WorldClock.tsx
 'use client'
 import React from 'react';
-import { useCurrentTime } from '../hooks/useCurrentTime.ts';
-import { City } from '../types/types.ts';
-import { SearchIcon } from './icons.tsx';
+import { useCurrentTime } from '../hooks/useCurrentTime';
+import { City } from '../types/types';
+import { SearchIcon } from './icons';
 
 const cities: City[] = [
   { name: 'Tijuana', timeZone: 'America/Tijuana' },

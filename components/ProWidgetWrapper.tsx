@@ -1,7 +1,7 @@
 // components/ProWidgetWrapper.tsx
 'use client'
 import React from 'react';
-import { LockIcon } from './icons.tsx';
+import { LockIcon } from './icons';
 
 const ProWidgetWrapper = ({ children, isPro, onUpgradeClick }: { children: React.ReactNode, isPro: boolean, onUpgradeClick: () => void }) => {
     // Получаем дочерний элемент, чтобы извлечь заголовок

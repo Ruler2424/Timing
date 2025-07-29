@@ -1,7 +1,7 @@
 // components/DistractionTracker.tsx
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { CoffeeIcon } from './icons.tsx';
+import { CoffeeIcon } from './icons';
 
 const DistractionTracker = () => {
     const [isDistracted, setIsDistracted] = useState(false);

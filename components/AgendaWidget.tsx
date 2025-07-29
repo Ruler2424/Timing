@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { ListIcon } from './icons.tsx';
-import { useCurrentTime } from '../hooks/useCurrentTime.ts';
-import { useAudioPlayer } from '../utils/sounds/playSound.tsx';
+import { ListIcon } from './icons';
+import { useCurrentTime } from '../hooks/useCurrentTime';
+import { useAudioPlayer } from '../utils/sounds/playSound';
 
 // Типы
 interface AgendaItem {

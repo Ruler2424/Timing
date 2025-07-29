@@ -1,8 +1,8 @@
 // components/SleepCycleCalculator.tsx
 'use client'
 import React, { useState, useEffect } from 'react';
-import { MoonIcon } from './icons.tsx';
-import { useCurrentTime } from '../hooks/useCurrentTime.ts';
+import { MoonIcon } from './icons';
+import { useCurrentTime } from '../hooks/useCurrentTime';
 
 const FALL_ASLEEP_TIME = 15 * 60 * 1000; // 15 minutes in ms
 const SLEEP_CYCLE_TIME = 90 * 60 * 1000; // 90 minutes in ms
