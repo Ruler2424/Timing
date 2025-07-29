@@ -39,6 +39,28 @@
     <priority>0.5</priority>
   </url>
 
+  <url>
+    <loc>https://timing-five.vercel.app/blog</loc>
+    {/* Consider updating this date whenever significant content changes occur on the blog page */}
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> 
+    {/* Daily frequency is appropriate if the content might update daily (e.g., dynamic data), 
+        otherwise 'weekly' or 'monthly' might be more suitable. */}
+    <changefreq>daily</changefreq> 
+    {/* Priority 1.0 indicates this is the most important page. */}
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://timing-five.vercel.app/pricing</loc>
+    {/* Consider updating this date whenever significant content changes occur on the pricing page */}
+    <lastmod>2024-07-28T12:00:00+00:00</lastmod> 
+    {/* Daily frequency is appropriate if the content might update daily (e.g., dynamic data), 
+        otherwise 'weekly' or 'monthly' might be more suitable. */}
+    <changefreq>daily</changefreq> 
+    {/* Priority 1.0 indicates this is the most important page. */}
+    <priority>1.0</priority>
+  </url>
+
   {/* Add URLs for other specific pages or widgets if they represent unique content sections 
       that should be indexed independently. Be cautious not to add URLs that are dynamically 
       generated or require user interaction unless they contain distinct, indexable content. */}
