@@ -78,7 +78,7 @@ const Stopwatch = () => {
             </div>
             {laps.length > 0 && (
                 <div className="text-xs text-slate-400 font-mono self-start w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                    Last Lap: {formatTime(laps[0])}
+                    Last Lap: {formatTime(laps[0]??4)}
                 </div>
             )}
         </div>
