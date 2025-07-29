@@ -24,23 +24,28 @@ const PomodoroTimer = () => {
   }, []);
 
   useEffect(() => {
-    if (isActive && timeLeft > 0) {
-      intervalRef.current = window.setInterval(() => setTimeLeft(t => t - 1), 1000);
-    } else if (timeLeft === 0) {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      setIsActive(false);
-      audioRef.current?.play().catch(console.error);
+  if (isActive && timeLeft > 0) {
+    intervalRef.current = window.setInterval(() => setTimeLeft(t => t - 1), 1000);
+  } else if (timeLeft === 0) {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setIsActive(false);
+    audioRef.current?.play().catch(console.error);
 
-      if (mode === 'work') {
-        const next = pomodoros + 1;
-        setPomodoros(next);
-        switchMode(next % 4 === 0 ? 'longBreak' : 'shortBreak');
-      } else {
-        switchMode('work');
-      }
+    if (mode === 'work') {
+      const next = pomodoros + 1;
+      setPomodoros(next);
+      switchMode(next % 4 === 0 ? 'longBreak' : 'shortBreak');
+    } else {
+      switchMode('work');
     }
-    return () => intervalRef.current && clearInterval(intervalRef.current);
-  }, [isActive, timeLeft, mode, pomodoros, switchMode]);
+  }
+  return () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
+}, [isActive, timeLeft, mode, pomodoros, switchMode]);
+
 
   const formatTime = (s: number) =>
     `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;

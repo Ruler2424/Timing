@@ -15,7 +15,7 @@ const robotoMono = Roboto_Mono({ subsets: ['latin'], variable: '--font-roboto-mo
 
 
 export default function ClientLayoutContent({ children }: { children: React.ReactNode }) {
-  const { settings, updateSettings } = useSettings();
+  const { settings } = useSettings();
   const { user, upgradeToPro } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 

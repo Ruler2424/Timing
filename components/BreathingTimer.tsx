@@ -12,7 +12,7 @@ const PHASES = [
 const BreathingTimer = () => {
     const [isActive, setIsActive] = useState(false);
     const [phaseIndex, setPhaseIndex] = useState(0);
-    const [timeLeftInPhase, setTimeLeftInPhase] = useState(PHASES[0].duration);
+const [timeLeftInPhase, setTimeLeftInPhase] = useState(PHASES[0]?.duration ?? 4);
     const intervalRef = useRef<number | null>(null);
 
     useEffect(() => {
@@ -29,7 +29,8 @@ const BreathingTimer = () => {
                 // Time for next phase
                 const nextPhaseIndex = (phaseIndex + 1) % PHASES.length;
                 setPhaseIndex(nextPhaseIndex);
-                return PHASES[nextPhaseIndex].duration;
+return PHASES[nextPhaseIndex]?.duration ?? 4;
+
             });
         }, 1000);
 
@@ -42,14 +43,16 @@ const BreathingTimer = () => {
         if (isActive) {
             setIsActive(false);
             setPhaseIndex(0);
-            setTimeLeftInPhase(PHASES[0].duration);
+setTimeLeftInPhase(PHASES[0]?.duration ?? 4);
+
         } else {
             setIsActive(true);
         }
     };
     
     const currentPhase = PHASES[phaseIndex];
-    const isBreathingIn = currentPhase.name === 'Breathe In';
+const isBreathingIn = currentPhase && currentPhase.name === 'Breathe In';
+
 
     return (
         <div className="bg-white rounded-2xl p-6 flex flex-col items-center justify-between shadow-lg h-64">
@@ -59,7 +62,8 @@ const BreathingTimer = () => {
                     <div className={`absolute bg-blue-200 rounded-full transition-all duration-1000 ease-in-out ${isActive ? (isBreathingIn ? 'w-28 h-28' : 'w-16 h-16') : 'w-16 h-16'}`}></div>
                     <div className="relative z-10 text-center">
                          <p className="font-semibold text-xl text-slate-700">
-                             {isActive ? currentPhase.name : 'Ready?'}
+{isActive ? currentPhase?.name ?? 'Unknown Phase' : 'Ready?'}
+
                          </p>
                          {isActive && <p className="font-digital text-4xl text-slate-600">{timeLeftInPhase}</p>}
                     </div>
