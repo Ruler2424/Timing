@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 export default function SettingsPage() {
   const { settings, updateSettings, availableSounds } = useSettings();
-  const { user, upgradeToPro } = useAuth();
+  const { upgradeToPro } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Example of how to handle theme change
