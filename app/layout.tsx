@@ -2,7 +2,7 @@
 // This file is a Server Component (no 'use client' directive at the top)
 
 import './globals.css'; // Global styles import
-import { Inter, Roboto_Mono } from 'next/font/google'; // Next.js Font imports
+import { Inter, Roboto_Mono } from 'next/font/google'; // Next.js Font impoarts
 
 // Provider imports (these will contain 'use client' internally or wrap client components)
 import { AuthProvider } from '@/hooks/useAuth';
