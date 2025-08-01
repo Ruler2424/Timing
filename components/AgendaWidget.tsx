@@ -13,11 +13,8 @@ interface AgendaItem {
 }
 
 const INITIAL_AGENDA_ITEMS: AgendaItem[] = [
-    { id: '1', time: '09:00', task: 'Morning Stand-up' },
-    { id: '2', time: '10:30', task: 'Team Sync Meeting' },
-    { id: '3', time: '12:00', task: 'Lunch Break' },
-    { id: '4', time: '14:00', task: 'Focus Work Session' },
-    { id: '5', time: '16:00', task: 'Client Call' },
+    { id: '1', time: '08:00', task: 'Your Agenda' },
+    
 ];
 
 const ALERT_BEFORE_MINUTES = 5;
@@ -221,31 +218,32 @@ const AgendaWidget = () => {
                                 onDragOver={(e) => e.preventDefault()}
                             >
                                 {isEditingItem ? (
-                                    <>
-                                        <input
-                                            type="time"
-                                            value={editedTime}
-                                            onChange={e => setEditedTime(e.target.value)}
-                                            className="w-20 bg-transparent text-sm font-mono text-blue-600 font-bold outline-none border-b-2 border-blue-300 focus:border-blue-500"
-                                            aria-label="Edit time"
-                                        />
-                                        <input
-                                            type="text"
-                                            value={editedTask}
-                                            onChange={e => setEditedTask(e.target.value)}
-                                            className="flex-grow text-sm text-black font-semibold bg-transparent outline-none border-b-2 border-blue-300 focus:border-blue-500"
-                                            aria-label="Edit task"
-                                        />
-                                        <button
-                                            onClick={() => handleSave(item.id)}
-                                            title="Save"
-                                            className="p-1 rounded-full hover:bg-slate-200"
-                                            aria-label="Save changes"
-                                        >
-                                            ✔️
-                                        </button>
-                                    </>
-                                ) : (
+    <>
+        <input
+            type="time"
+            value={editedTime}
+            onChange={e => setEditedTime(e.target.value)}
+            onKeyDown={e => {
+                if (e.key === 'Enter') handleSave(item.id);
+            }}
+            onBlur={() => handleSave(item.id)}
+            className="w-20 bg-transparent text-sm font-mono text-blue-600 font-bold outline-none border-b-2 border-blue-300 focus:border-blue-500"
+            aria-label="Edit time"
+        />
+        <input
+            type="text"
+            value={editedTask}
+            onChange={e => setEditedTask(e.target.value)}
+            onKeyDown={e => {
+                if (e.key === 'Enter') handleSave(item.id);
+            }}
+            onBlur={() => handleSave(item.id)}
+            className="flex-grow text-sm text-black font-semibold bg-transparent outline-none border-b-2 border-blue-300 focus:border-blue-500"
+            aria-label="Edit task"
+        />
+    </>
+) : (
+
                                     <>
                                         <span className={`font-mono text-sm ${isCurrent ? 'text-blue-600 font-bold' : isPast ? 'text-slate-400' : 'text-slate-500'}`}>
                                             {item.time}
