@@ -41,6 +41,7 @@ export const metadata = {
 export default function HomePage() {
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
+      <meta name="google-site-verification" content="9JyMyl6n6EhEVDWdNkZYz91qgLzdZDu0sn_VjlIfeak" />
       <h1 className="text-center text-4xl md:text-5xl font-extrabold text-[var(--text-color)] mb-8">
         TimeCraft: Your Ultimate <b>All-in-One Timer Dashboard</b> for Unmatched Productivity
       </h1>
